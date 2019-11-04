@@ -1,0 +1,14 @@
+====================================================
+    PLUGINS
+====================================================
+Plugins in the Free Edition
+====================================================
+
+Bootstrap - https://getbootstrap.com/docs/4.0/getting-started/introduction/
+Font Awesome - http://fontawesome.io/get-started/
+ChartJS - http://www.chartjs.org
+
+====================================================
+   IMAGES
+====================================================
+https://www.pexels.com/photo/books-business-computer-connection-459654/
