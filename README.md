@@ -6,7 +6,7 @@ Php Accounting System.
 
 ## HELP ME IMPROVE THIS APP -
 
-This is an open source Project created by me(Raja Osama) and my firend 3 years ago, Everything is working.
+This is an open source Project created by me(Raja Osama) and my friend 3 years ago, Everything is working.
 Bootstrap Theme is being used in this Project
 
 Your Welcome to Contribute, I am willing to make this fully functional but before that we have to migrate this to the proper either larvel or Symphony.
