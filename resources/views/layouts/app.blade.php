@@ -1,80 +1,187 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <head>
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
+    <!-- DISABLE FOR NOW LARAVEL COMPILED Scripts -->
+    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <!-- DISABLE FOR NOW LARAVEL COMPILED Styles -->
+    {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
 
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-</head>
-<body>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>FIX ME - Payment Voucher</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="core/vendor/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="core/vendor/font-awesome/css/font-awesome.min.css">
+    <!-- Custom Font Icons CSS-->
+    <link rel="stylesheet" href="core/css/font.css">
+    <!-- Google fonts - Muli-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,700">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="core/css/style.default.css" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="core/css/custom.css">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="core/img/favicon1.png">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <!-- Tweaks for older IEs-->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+
+        @yield('header')
+
+  </head>
+
+  <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+        <div class="loader">
+            <div class="loader__bar"></div>
+            <div class="loader__bar"></div>
+            <div class="loader__bar"></div>
+            <div class="loader__bar"></div>
+            <div class="loader__bar"></div>
+            <div class="loader__ball"></div>
+        </div>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
+        <header class="header">
+        <nav class="navbar navbar-expand-lg" >
+          <div class="search-panel">
+            <div class="search-inner d-flex align-items-center justify-content-center">
+              <div class="close-btn">Close <i class="fa fa-close"></i></div>
+              <form id="searchForm" action="#">
+                <div class="form-group">
+                  <input type="search" name="search" placeholder="What are you searching for...">
+                  <button type="submit" class="submit">Search</button>
                 </div>
+              </form>
             </div>
-        </nav>
+          </div>
+          <div class="container-fluid d-flex align-items-center justify-content-between">
+            <div class="navbar-header">
+              <!-- Navbar Header--><a href="paymentdesign" class="navbar-brand">
+                <div class="brand-text brand-big visible text-uppercase"><strong
+                    class="text-primary">Dash</strong><strong>Board</strong></div>
+                <div class="brand-text brand-sm"><strong class="text-primary">DF</strong><strong>M</strong></div>
+              </a>
+              <!-- Sidebar Toggle Btn-->
+              <button class="sidebar-toggle"><i class="fa fa-long-arrow-left"></i></button>
+            </div>
 
-        <main class="py-4">
-            @yield('content')
-        </main>
+
+            <div class="list-inline-item logout">
+
+                <a id="logout" href="{{ route('logout') }}" class="nav-link"
+                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();" >
+                   <span style='color:blue' > {{ Auth::user()->name }} </span> Logout <i class="icon-logout"></i>
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                    {{ csrf_field() }}
+                </form>
+            </div>
+
+        </nav>
+      </header>
+
+      <div class="d-flex align-items-stretch">
+
+        <!-- Sidebar Navigation-->
+        <nav id="sidebar">
+          <!-- Sidebar Header-->
+          <div class="sidebar-header d-flex align-items-center">
+            <div class="avatar"><img src="core/img/Mylogo.jpg" alt="..." class="img-fluid rounded-circle"></div>
+            <div class="title">
+              <h1 class="h5">SSA</h1>
+              <p>(Super-Sami.com)</p>
+            </div>
+          </div>
+
+          <span class="heading">Main</span>
+          <ul class="list-unstyled">
+            <li {{ activeIfAt('paymentdesign') }}><a href="paymentdesign"> <i class="fa fa-file-text-o"></i>Payment Voucher </a></li>
+            <li {{ activeIfAt('receiptdesign') }}><a href="receiptdesign"> <i class="fa fa-file-text-o"></i>Receipt Voucher </a></li>
+            <li {{ activeIfAt('invoicedesign') }}><a href="invoicedesign"> <i class="icon-padnote"></i>Invoice </a></li>
+            <li {{ activeIfAt('adjustment') }}><a href="adjustment"> <i class="icon-padnote"></i>Adjustment </a></li>
+            <li {{ activeIfAt('general') }}><a href="general"> <i class="fa fa-bar-chart"></i>General Ledger</a></li>
+            <li {{ activeIfAt(['chartofaccount','mainaccounts','subaccounts'] )}}>
+              <a href="#exampledropdownDropdown1" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Create Account</a>
+              <ul id="exampledropdownDropdown1" class="collapse list-unstyled ">
+                <li {{ activeIfAt('chartofaccount') }}><a href="chartofaccount">Chart Of Account</a></li>
+                <li {{ activeIfAt('mainaccounts') }}><a href="mainaccounts">Main Account</a></li>
+                <li {{ activeIfAt('subaccounts') }}><a href="subaccounts">Sub Account</a></li>
+              </ul>
+            </li>
+            <li {{ activeIfAt(['showreceiptdesign','showpaymentdesign','showadjustment','showinvoicedesign'] )}}>
+              <a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>All Records</a>
+              <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
+                <li {{ activeIfAt('showpaymentdesign') }}><a href="showpaymentdesign">Payment Voucher Records</a></li>
+                <li {{ activeIfAt('showreceiptdesign') }}><a href="showreceiptdesign">Receipt Voucher Records</a></li>
+                <li {{ activeIfAt('showinvoicedesign') }}><a href="showinvoicedesign">Invoice Records</a></li>
+                <li {{ activeIfAt('showadjustment')    }}><a href="showadjustment">Adjustment Records</a></li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+        <!-- Sidebar Navigation end-->
+
+
+
+        <div class="page-content">
+          <!-- Page Header-->
+          <div class="page-header no-margin-bottom">
+            <div class="container-fluid">
+              <h2 class="h5 no-margin-bottom">Super Sami Accounting Managements</h2>
+            </div>
+          </div>
+          <!-- Breadcrumb-->
+          <div class="container-fluid">
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item"><a href="paymentdesign">Home</a></li>
+              <li class="breadcrumb-item active">payment -- fix this -- </li>
+            </ul>
+          </div>
+          <section class="no-padding-top">
+            <div class="container-fluid">
+              <div class="row">
+
+                @yield('content')
+
+              </div>
+            </div>
+          </section>
+          <footer class="footer">
+            <div class="footer__block block no-margin-bottom">
+              <div class="container-fluid text-center">
+                <!-- Please do not remove the backlink to us unless you support us at https://super-sami.com/donate. It is part of the license conditions. Thank you for understanding :)-->
+                <p class="no-margin-bottom">2020&copy; Super-Sami Design by <a href="https://super-sami.com">Raja Osama
+                    - Theme used of Bootstrap</a>.</p>
+              </div>
+            </div>
+          </footer>
+        </div>
+      </div>
+
     </div>
-</body>
+  </body>
+  <!-- JavaScript files-->
+  <script src="core/vendor/jquery/jquery.min.js"></script>
+  <script src="core/vendor/popper.js/umd/popper.min.js"> </script>
+  <script src="core/vendor/bootstrap/js/bootstrap.min.js"></script>
+  <script src="core/vendor/jquery.cookie/jquery.cookie.js"> </script>
+  <script src="core/vendor/chart.js/Chart.min.js"></script>
+  <script src="core/vendor/jquery-validation/jquery.validate.min.js"></script>
+  <script src="core/js/front.js"></script>
+  @yield('footer')
 </html>

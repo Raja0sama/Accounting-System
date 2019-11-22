@@ -32,7 +32,8 @@ class CreatePaymentsTable extends Migration {
 			$table->string('subaccountvalue5', 50);
 			$table->string('by', 50);
 			$table->string('Description', 50);
-			$table->integer('Total');
+            $table->integer('Total');
+            $table->timestamps();
 		});
 	}
 

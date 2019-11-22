@@ -16,7 +16,8 @@ class CreateByTable extends Migration {
 		{
 			$table->string('accountname', 50);
 			$table->integer('accountid');
-			$table->integer('chartid');
+            $table->integer('chartid');
+            $table->timestamps();
 		});
 	}
 
