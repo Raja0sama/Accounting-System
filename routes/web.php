@@ -32,3 +32,7 @@ Route::any('core/{uri}', function($uri){ serve_core($uri); } );
 
 Route::fallback(function(){ return redirect('core/login.php'); } );
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
