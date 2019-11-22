@@ -9,13 +9,14 @@ The approach we will take is to rewrite existing functionality utilising followi
 1.  Migrations
 2.  Auth
 3.  Config (for any app behavior defining parameters)
-4.  Eloquent Models
-5.  Routing
-6.  Resource Controllers / Requests (for validation)
-7.  Resources (compiled via webpack/laravel mix)
-8.  Blade Views
-9.  Vue / AJAX / RESTful API
-10. Other ??? 
+4.  Eloquent Models 
+5.  Factories / Seeds
+6.  Routing
+7.  Resource Controllers / Requests (for validation)
+8.  Resources (compiled via webpack/laravel mix)
+9.  Blade Views
+10. Vue / AJAX / RESTful API
+11. Other ??? 
 
 Development will mostly follow a TDD approach and will utilize following tools :
 
