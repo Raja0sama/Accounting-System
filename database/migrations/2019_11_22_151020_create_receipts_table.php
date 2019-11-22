@@ -15,7 +15,7 @@ class CreateReceiptsTable extends Migration {
 		Schema::create('receipts', function(Blueprint $table)
 		{
 			$table->bigIncrements('id', true);
-			$table->date('Date');
+			$table->date('Date')->nullable();
 			$table->string('chartaccount', 50);
 			$table->string('mainaccount', 50);
 			$table->string('subaccount', 50);
