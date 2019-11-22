@@ -2,14 +2,13 @@
 
 <?php
 
-$con = mysqli_connect("localhost","root","","accounts");
+$con =dbconnection();
 if(isset($_POST['addaccount'])){
 	$name = $_POST['name'];
-	$id = $_POST['id'];
-		
+		$id = $_POST['id'];
 	$chart = $_POST['chart'];
-	
-	$query= "INSERT INTO `subaccount`( `accountname`, `accountid`, `subid`) VALUES ('$name',$chart,$id)";
+
+	$query= "INSERT INTO `account`( `accountname`, `accountid`, `chartid`) VALUES ('$name','$id',$chart)";
 	$exe = mysqli_query($con,$query);
 	if($exe){
 		echo "inserted";
@@ -19,19 +18,19 @@ if(isset($_POST['addaccount'])){
 	}
 ?>
 <form method = "post">
-<h1>Sub Account</h1> 
+<h1>Account</h1>
 <input type= "name" name="name" placeholder="Enter chart account" />
-<input type= "name" name="id" placeholder="Enter id"/>
+<input type= "name" name="id" placeholder="Enter id" />
 
 <select name="chart">
 
 <?php
-$query = "SELECT * FROM `account`";
+$query = "SELECT * FROM `chartaccount`";
 $exe = mysqli_query($con,$query);
 if($exe){
 	while($row = mysqli_fetch_array($exe)){
 	?>
-<option value= "<?php echo $row['accountid']; ?>"><?php echo $row['accountname']; ?></option>	
+<option value= "<?php echo $row['chartid']; ?>"><?php echo $row['accountname']; ?></option>
 <?php	}
 }else{
 	echo "problem";
@@ -40,6 +39,9 @@ if($exe){
 </select>
 
 <input type= "submit" name="addaccount" value="submit" />
+
+<br>
+
 
 
 </form>

@@ -1,6 +1,6 @@
 <?php
 
-$con = mysqli_connect("localhost","root","root","account");
+$con = dbconnection();
 if (!$con) {
     die("Connection failed: " . $con->connect_error);
     }

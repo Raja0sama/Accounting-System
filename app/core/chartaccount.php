@@ -2,12 +2,12 @@
 
 <?php
 
-$con = mysqli_connect("localhost","root","","accounts");
+$con = dbconnection();
 if(isset($_POST['addchart'])){
 	$name = $_POST['name'];
 		$id = $_POST['id'];
 	$query= "INSERT INTO `chartaccount`( `accountname`, `chartid`) VALUES ('$name',$id)";
-	
+
 	$exe = mysqli_query($con,$query);
 	if($exe){
 		echo "inserted";
@@ -15,11 +15,11 @@ if(isset($_POST['addchart'])){
 		echo "failed";
 	}
 	}
-	
+
 
 
 ?>
-<form method = "post"> 
+<form method = "post">
 <h1>Chart Account</h1>
 <input type= "name" name="name" placeholder="Enter chart account" />
 <input type= "name" name="id" placeholder="Enter Id" />
