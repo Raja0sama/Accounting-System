@@ -27,6 +27,20 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
+window.VueApp = new Vue({
     el: '#app',
+    data: {
+        v1:null,
+        v2:null,
+        v3:null,
+        v4:null,
+        v5:null,
+        v6:null,
+    },
+    computed: {
+        total: function () {
+            t = Number(this.v1) + Number(this.v2) + Number(this.v3) + Number(this.v4) + Number(this.v5) + Number(this.v6)
+            return t ? t : ''
+        }
+    }
 });

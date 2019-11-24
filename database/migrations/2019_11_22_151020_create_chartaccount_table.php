@@ -18,6 +18,7 @@ class CreateChartaccountTable extends Migration {
 			$table->string('accountname', 50);
 			$table->float('amount', 10, 0);
             $table->string('chartid', 30);
+            $table->string('type', 10);
             $table->timestamps();
 		});
 	}
