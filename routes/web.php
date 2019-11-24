@@ -13,60 +13,88 @@ use Illuminate\Http\Request;
 |
 */
 
-
-if (!function_exists('activeIfAt')) {
-
-    function activeIfAt($pages)
-    {
-        $uri = request()->getUri();
-        if (is_array($pages)) {
-            foreach ($pages as $page) {
-                if (strpos($uri, $page) !== false) {
-                    echo ' class="active" ';
-                    return void;
-                }
-            }
-        } elseif (is_string($pages)) {
-            if (strpos($uri, $pages) !== false) {
-                echo ' class="active" ';
-                return void;
-            }
-        }
-    }
-}
-
-
-if (!function_exists('dbconnection')) {
-    function dbconnection()
-    {
-        $host = env('DB_CORE_HOST') . ':' . env('DB_CORE_PORT');
-        $database = env('DB_CORE_DATABASE');
-        $username = env('DB_CORE_USERNAME');
-        $password = env('DB_CORE_PASSWORD');
-        return mysqli_connect($host, $username, $password, $database);
-    }
-}
-
-if (!function_exists('serve_core')) {
-    function serve_core($uri = null)
-    {
-        $target = app_path("core/") . ($uri ?? 'login.php');
-        $target = realpath($target);
-        $target = $target ? $target : app_path("core/login.php");
-        include $target;
-    }
-}
 Auth::routes();
-Route::group(['auth'], function () {
-    Route::get('/', 'HomeController@index');
-    Route::get('/home', 'HomeController@index')->name('home');
-});
+Route::group(
+    ['middleware' => ['auth']],
+    function () {
+
+        Route::get(
+            '/',
+            function () {
+                return redirect()->route('payments.create');
+            }
+        );
+
+        Route::get(
+            '/home',
+            function () {
+                return redirect()->route('payments.create');
+            }
+        );
+
+        foreach (['payment', 'receipt', 'invoice', 'adjustment'] as $resource) {
+            $controller = ucfirst($resource) . 'Controller';
+            Route::resource(Str::plural($resource), $controller)->except(['edit', 'update']);
+        }
+        foreach (['account', 'chartaccount', 'subaccount'] as $resource) {
+            $controller = ucfirst($resource) . 'Controller';
+            Route::resource(Str::plural($resource), $controller)->except(['create', 'show']);
+        }
+
+        Route::get(
+            '/general',
+            function () {
+                return redirect()->route('payments.create');
+            }
+        )->name('general_ledger');
+    }
+);
+
+Route::middleware('auth')->prefix('api/')->group(
+    function () {
 
 
-Route::any('core/{uri}', function ($uri) {
-    serve_core($uri);
-});
+        Route::get(
+            'accountsOfChart',
+            function (Request $request) {
+                $chart_id = request()->input('chart_id');
+                $accounts = App\Account::where('chartid', '=', $chart_id)->get();
+                $query = App\Account::where('chartid', '=', $chart_id)->toSql();
+                return compact('accounts', 'query');
+            }
+        )->name('accountsOfChart');
 
-Route::fallback(function () {
-    return 'I am sorry - I cant find ' . request()->getRequestUri();
-});
+        Route::get(
+            'subaccountsOfAccount',
+            function (Request $request) {
+                $account_id = request()->input('account_id');
+                $subAccounts = App\Subaccount::where('accountid', '=', $account_id)->get();
+                return compact('subAccounts');
+            }
+        )->name('subaccountsOfAccount');
+    }
+);
+
+Route::any(
+    'core/{uri}',
+    function ($uri) {
+        serve_core($uri);
+    }
+);
+
+Route::fallback(
+    function () {
+        return 'I am sorry - I cant find ' . request()->getRequestUri();
+    }
+);
+
+
+// Verb        Path                            Action  Route Name
+// -------------------------------------------------------------------
+// GET         /resource                       index   resource.index
+// GET         /resource/create                create  resource.create
+// POST        /resource                       store   resource.store
+// GET         /resource/{resource}            show    resource.show
+// GET         /resource/{resource}/edit       edit    resource.edit
+// PUT/PATCH   /resource/{resource}            update  resource.update
+// DELETE      /resource/{resource}            destroy resource.destroy

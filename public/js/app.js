@@ -49368,8 +49368,22 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-var app = new Vue({
-  el: '#app'
+window.VueApp = new Vue({
+  el: '#app',
+  data: {
+    v1: null,
+    v2: null,
+    v3: null,
+    v4: null,
+    v5: null,
+    v6: null
+  },
+  computed: {
+    total: function total() {
+      t = Number(this.v1) + Number(this.v2) + Number(this.v3) + Number(this.v4) + Number(this.v5) + Number(this.v6);
+      return t ? t : '';
+    }
+  }
 });
 
 /***/ }),
