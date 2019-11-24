@@ -4,11 +4,15 @@
 
 <link rel="stylesheet" type="text/css" href="/core/css/datatable.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css">
-
+<style>
+    [v-cloak] {
+        display: none !important;
+    }
+</style>
 @endsection
 
 @section('content')
-<div class="col-lg-12">
+<div class="col-lg-12" v-cloak>
     <div class="block">
         <div class="title"><strong>Payment Voucher Records</strong></div>
         <div class="block-body">
@@ -38,8 +42,8 @@
                                     </tr>
                                     <thead>
                                     <tbody>
+                                        @foreach ($payments as $p)
                                         <tr>
-                                            @foreach ($payments as $p)
                                             <td class="table-active">{{ $p->id  }}</td>
                                             <td class="table-secondary">{{ $p->Date   }}</td>
                                             <td>{{ $p->chartaccount   }}</td>
@@ -54,8 +58,8 @@
                                             <td>{{ $p->Description   }}</td>
                                             <td class="table-active">{{ $p->Total   }}</td>
                                             <td><a href="{{ route('payments.show',$p->id)}}">Print</a> </td>
-                                            @endforeach
                                         </tr>
+                                        @endforeach
                                 <tbody>
                             </table>
                         </div>
@@ -90,6 +94,7 @@
                 'pdfHtml5'
             ]
         });
+        $('[v-cloak]').removeAttr('v-cloak');
     } );
 </script>
 

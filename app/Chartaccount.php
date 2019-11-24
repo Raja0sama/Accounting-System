@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Chartaccount extends Model
 {
+
     public function transact($amount)
     {
         if ($this->type == 'D') {

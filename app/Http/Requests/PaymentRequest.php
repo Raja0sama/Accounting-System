@@ -26,7 +26,7 @@ class PaymentRequest extends FormRequest
     {
         $rules = [
             'datevalue' => 'required|date|before_or_equal:' . Carbon::now(),
-            'chartvalue' => 'required|exists:chartaccount,id',
+            'chartvalue' => 'required|exists:chartaccounts,id',
             'mainvalue' => 'required|exists:accounts,id',
             'description' => 'required|max:255'
         ];

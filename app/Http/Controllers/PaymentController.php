@@ -20,11 +20,8 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        $data = [
-            'con' => dbconnection(),
-            'payments' => Payment::all(),
-        ];
-        return view('payment_index', $data);
+        $payments=Payment::all();
+        return view('payment_index', compact('payments'));
     }
 
     /**
@@ -34,8 +31,7 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        $data = [];
-        return view('payment_create', $data);
+        return view('payment_create');
     }
 
     /**
@@ -116,7 +112,7 @@ class PaymentController extends Controller
      */
     public function show(Payment $payment)
     {
-        //
+        return view('payment_show', compact('payment'));
     }
 
     /**
@@ -127,7 +123,6 @@ class PaymentController extends Controller
      */
     public function edit(Payment $payment)
     {
-        //
     }
 
     /**
