@@ -4,8 +4,6 @@
     <head>
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <!-- LARAVEL COMPILED Scripts -->
-        <script src="{{ asset('js/app.js') }}" defer></script>
         <!-- Fonts -->
         <link rel="dns-prefetch" href="//fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -35,7 +33,6 @@
         <link rel="shortcut icon" href="/core/img/favicon1.png">
         <link rel="stylesheet" href="/css/jquery-ui.min.js">
 
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
         <!-- Tweaks for older IEs-->
         <!--[if lt IE 9]>
@@ -72,7 +69,7 @@
                     </div>
                     <div class="container-fluid d-flex align-items-center justify-content-between">
                         <div class="navbar-header">
-                            <!-- Navbar Header--><a href="paymentdesign" class="navbar-brand">
+                            <!-- Navbar Header--><a href="/" class="navbar-brand">
                                 <div class="brand-text brand-big visible text-uppercase"><strong
                                         class="text-primary">Dash</strong><strong>Board</strong></div>
                                 <div class="brand-text brand-sm"><strong
@@ -114,38 +111,48 @@
 
                     <span class="heading">Main</span>
                     <ul class="list-unstyled">
-                        <li {{ activeIfAt('paymentdesign') }}><a href="paymentdesign"> <i
+                        <li {{ activeIfRoute('payments.create') }}><a href="{{ route('payments.create') }}"> <i
                                     class="fa fa-file-text-o"></i>Payment Voucher </a></li>
-                        <li {{ activeIfAt('receiptdesign') }}><a href="receiptdesign"> <i
+                        <li {{ activeIfRoute('receipts.create') }}><a href="{{ route('receipts.create') }}"> <i
                                     class="fa fa-file-text-o"></i>Receipt Voucher </a></li>
-                        <li {{ activeIfAt('invoicedesign') }}><a href="invoicedesign"> <i
+                        <li {{ activeIfRoute('invoices.create') }}><a href="{{ route('invoices.create') }}"> <i
                                     class="icon-padnote"></i>Invoice </a></li>
-                        <li {{ activeIfAt('adjustment') }}><a href="adjustment"> <i class="icon-padnote"></i>Adjustment
+                        <li {{ activeIfRoute('adjustments.create') }}><a href="{{ route('adjustments.create') }}"> <i
+                                    class="icon-padnote"></i>Adjustment
                             </a></li>
-                        <li {{ activeIfAt('general') }}><a href="general"> <i class="fa fa-bar-chart"></i>General
+                        <li {{ activeIfRoute('general_ledger') }}><a href="{{ route('general_ledger') }}"> <i
+                                    class="fa fa-bar-chart"></i>General
                                 Ledger</a></li>
-                        <li {{ activeIfAt(['chartofaccount','mainaccounts','subaccounts'] )}}>
+                        <li {{ activeIfRoute(['chartaccounts.index','accounts.index','subaccounts.index'] )}}>
                             <a href="#exampledropdownDropdown1" aria-expanded="false" data-toggle="collapse"> <i
                                     class="icon-windows"></i>Create Account</a>
                             <ul id="exampledropdownDropdown1" class="collapse list-unstyled ">
-                                <li {{ activeIfAt('chartofaccount') }}><a href="chartofaccount">Chart Of Account</a>
-                                </li>
-                                <li {{ activeIfAt('mainaccounts') }}><a href="mainaccounts">Main Account</a></li>
-                                <li {{ activeIfAt('subaccounts') }}><a href="subaccounts">Sub Account</a></li>
+                                <li {{ activeIfRoute('chartaccounts.index') }}><a
+                                        href="{{ route('chartaccounts.index') }}">Chart Of Account</a></li>
+                                <li {{ activeIfRoute('accounts.index') }}><a href="{{ route('accounts.index') }}">Main
+                                        Account</a></li>
+                                <li {{ activeIfRoute('subaccounts.index') }}><a
+                                        href="{{ route('subaccounts.index') }}">Sub Account</a></li>
                             </ul>
                         </li>
                         <li
-                            {{ activeIfAt(['showreceiptdesign','showpaymentdesign','showadjustment','showinvoicedesign'] )}}>
+                            {{ activeIfRoute(['receipts.index','payments.index','adjustments.index','invoices.index'] )}}>
                             <a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i
                                     class="icon-windows"></i>All Records</a>
                             <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
-                                <li {{ activeIfAt('showpaymentdesign') }}><a href="showpaymentdesign">Payment Voucher
+                                <li {{ activeIfRoute('payments.index') }}><a
+                                        href="{{ route('payments.index') }}">Payment
+                                        Voucher
                                         Records</a></li>
-                                <li {{ activeIfAt('showreceiptdesign') }}><a href="showreceiptdesign">Receipt Voucher
+                                <li {{ activeIfRoute('receipts.index') }}><a
+                                        href="{{ route('receipts.index') }}">Receipt
+                                        Voucher
                                         Records</a></li>
-                                <li {{ activeIfAt('showinvoicedesign') }}><a href="showinvoicedesign">Invoice
+                                <li {{ activeIfRoute('invoices.index') }}><a
+                                        href="{{ route('invoices.index') }}">Invoice
                                         Records</a></li>
-                                <li {{ activeIfAt('showadjustment')    }}><a href="showadjustment">Adjustment
+                                <li {{ activeIfRoute('adjustments.index')    }}><a
+                                        href="{{ route('adjustments.index') }}">Adjustment
                                         Records</a></li>
                             </ul>
                         </li>
@@ -222,12 +229,14 @@
     <script src="/core/vendor/chart.js/Chart.min.js"></script>
     <script src="/core/vendor/jquery-validation/jquery.validate.min.js"></script>
     <script src="/core/js/front.js"></script>
+
     @if(Session::has('message'))
     <script src='/js/jquery-ui.min.js'></script>
     <script>
         setTimeout( function() {$( "#message.alert-success" ).fadeOut(2500,'swing')} ,2000);
     </script>
     @endif
+
     @yield('footer')
 
 </html>

@@ -9,7 +9,7 @@
     <div class="block">
         <div class="title"><strong>Payment Voucher</strong></div>
         <div class="block-body">
-            <form name="form" id="form1" action="{{ route("payment.store")}}" method="post" class="form-horizontal">
+            <form name="form" id="form1" action="{{ route("payments.store")}}" method="post" class="form-horizontal">
                 @csrf
                 <div id="HTMLtoPDF">
                     <div class="form-group row" id='NoAndDate'>
@@ -134,7 +134,7 @@
                         <label class="col-sm-1 form-control-label">Description</label>
                         <div class="col-sm-5">
                             <textarea class="form-control" id="description" value="{{ old('description')}}"
-                                name="description">{{ old('description')}}</textarea>
+                                maxlength=255 name="description">{{ old('description')}}</textarea>
                         </div>
                     </div>
                     <div class="form-group row" id='buttons'>
@@ -156,6 +156,7 @@
 @endsection
 
 @section('footer')
+<script src="{{ asset('js/app.js') }}" defer></script>
 
 <script src="/core/js/jspdf.js"></script>
 <script src="/core/js/jquery-2.1.3.js"></script>
@@ -205,7 +206,7 @@
     }
 
     function showAll(){
-        location.href="{{ route("payment.index") }}"
+        location.href="{{ route("payments.index") }}"
     }
 
     function applyOldValues(old){

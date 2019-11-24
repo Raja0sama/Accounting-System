@@ -19,7 +19,13 @@ class PaymentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    { }
+    {
+        $data = [
+            'con' => dbconnection(),
+            'payments' => Payment::all(),
+        ];
+        return view('payment_index', $data);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -29,7 +35,7 @@ class PaymentController extends Controller
     public function create()
     {
         $data = [];
-        return view('payment', $data);
+        return view('payment_create', $data);
     }
 
     /**
@@ -98,7 +104,7 @@ class PaymentController extends Controller
             $payment = Payment::create($data);
             $message = "Payment saved with id " . $payment->id;
         });
-        return redirect()->route('payment.create')->with(compact('message'));
+        return redirect()->route('payments.create')->with(compact('message'));
     }
 
 

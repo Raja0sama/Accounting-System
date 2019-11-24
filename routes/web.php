@@ -17,39 +17,42 @@ Auth::routes();
 Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/', function () {
-        return redirect()->route('payment.create');
+        return redirect()->route('payments.create');
     });
 
     Route::get('/home', function () {
-         return redirect()->route('payment.create');
+        return redirect()->route('payments.create');
     });
 
-    Route::get('/payment', 'PaymentController@index')->name('payment.index');
-    Route::get('/payment/create', 'PaymentController@create')->name('payment.create');
-    Route::post('/payment', 'PaymentController@store')->name('payment.store');
-    Route::get('/payment/{payment}', 'PaymentController@show')->name('payment.show');
-    Route::get('/payment/{payment}/edit', 'PaymentController@edit')->name('payment.edit');
-    Route::patch('/payment/{payment}', 'PaymentController@update')->name('payment.update');
-    Route::delete('/payment/{payment}', 'PaymentController@destroy')->name('payment.destroy');
+    foreach (['payment', 'receipt', 'invoice', 'adjustment'] as $resource) {
+        $controller = ucfirst($resource) . 'Controller';
+        Route::resource(Str::plural($resource), $controller)->except(['edit', 'update']);
+    }
+    foreach (['account', 'chartaccount', 'subaccount'] as $resource) {
+        $controller = ucfirst($resource) . 'Controller';
+        Route::resource(Str::plural($resource), $controller)->except(['create', 'show']);
+    }
 
+    Route::get('/general', function () {
+        return redirect()->route('payments.create');
+    })->name('general_ledger');
 });
 
-Route::middleware('auth')->prefix('api/')->group(function(){
+Route::middleware('auth')->prefix('api/')->group(function () {
 
 
-    Route::get('accountsOfChart', function(Request $request){
+    Route::get('accountsOfChart', function (Request $request) {
         $chart_id = request()->input('chart_id');
-        $accounts= App\Account::where('chartid','=',$chart_id)->get();
-        $query=App\Account::where('chartid','=',$chart_id)->toSql();
-        return compact('accounts','query');
+        $accounts = App\Account::where('chartid', '=', $chart_id)->get();
+        $query = App\Account::where('chartid', '=', $chart_id)->toSql();
+        return compact('accounts', 'query');
     })->name('accountsOfChart');
 
-    Route::get('subaccountsOfAccount', function(Request $request){
+    Route::get('subaccountsOfAccount', function (Request $request) {
         $account_id = request()->input('account_id');
-        $subAccounts= App\Subaccount::where('accountid','=',$account_id)->get();
+        $subAccounts = App\Subaccount::where('accountid', '=', $account_id)->get();
         return compact('subAccounts');
     })->name('subaccountsOfAccount');
-
 });
 
 Route::any('core/{uri}', function ($uri) {

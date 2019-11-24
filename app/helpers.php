@@ -6,11 +6,11 @@
 if (!function_exists('dbconnection')) {
     function dbconnection()
     {
-        $core='database.connections.core';
-        $host = config("$core.host")  . ':' . config("$core.port") ;
-        $database = config("$core.database") ;
-        $username = config("$core.username") ;
-        $password = config("$core.password") ;
+        $core = 'database.connections.core';
+        $host = config("$core.host")  . ':' . config("$core.port");
+        $database = config("$core.database");
+        $username = config("$core.username");
+        $password = config("$core.password");
         return mysqli_connect($host, $username, $password, $database);
     }
 }
@@ -42,6 +42,25 @@ if (!function_exists('activeIfAt')) {
             if (strpos($uri, $pages) !== false) {
                 echo ' class="active" ';
                 return void;
+            }
+        }
+    }
+}
+
+if (!function_exists('activeIfRoute')) {
+
+    function activeIfRoute($routes)
+    {
+        $currentroute = Route::currentRouteName();
+        if (is_array($routes)) {
+            foreach ($routes as $route) {
+                if (strpos($currentroute, $route) !== false) {
+                    echo ' class="active" ';
+                }
+            }
+        } elseif (is_string($routes)) {
+            if (strpos($currentroute, $routes) !== false) {
+                echo ' class="active" ';
             }
         }
     }

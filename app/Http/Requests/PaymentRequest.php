@@ -28,6 +28,7 @@ class PaymentRequest extends FormRequest
             'datevalue' => 'required|date|before_or_equal:' . Carbon::now(),
             'chartvalue' => 'required|exists:chartaccount,id',
             'mainvalue' => 'required|exists:accounts,id',
+            'description' => 'required|max:255'
         ];
         for ($i = 1; $i <= 6; $i++) {
             $fields = '';
@@ -55,13 +56,13 @@ class PaymentRequest extends FormRequest
         return $messages;
     }
 
-
     public function attributes()
     {
         $attributes = [
-            'datevalue' => 'payment Date',
+            'datevalue' => 'Date',
             'chartvalue' => 'Chart of Accounts',
             'mainvalue' => 'Main Account',
+            'description' => 'Description',
         ];
         for ($i = 1; $i <= 6; $i++) {
             $attributes['subvalue' .  $i] = 'Sub Account';
