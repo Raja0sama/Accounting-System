@@ -182,9 +182,13 @@
                         <div class="container-fluid">
                             <div class="row" position='relative'>
                                 @if ($errors->any())
-                                <div class="alert alert-danger">
+                                <div id='errors' class="alert alert-danger">
+                                    <div style="display:block; float:right">
+                                        <a href='#' style='right; color:red ; weight:bold; text-decoration:none'
+                                            onclick='$("#errors").hide()'>X</a>
+                                    </div>
                                     <ul>
-                                        @foreach ($errors->all() as $error)
+                                        @foreach (array_unique($errors->all()) as $error)
                                         <li>{{ $error }}</li>
                                         @endforeach
                                     </ul>

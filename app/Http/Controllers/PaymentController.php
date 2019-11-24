@@ -19,8 +19,7 @@ class PaymentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-    }
+    { }
 
     /**
      * Show the form for creating a new resource.
@@ -29,7 +28,7 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        $data=[];
+        $data = [];
         return view('payment', $data);
     }
 
@@ -65,17 +64,18 @@ class PaymentController extends Controller
 
         // return for more (send flash message with new payment ID )
         // }
-        $message='';
-        DB::transaction( function() use ($request,&$message) {
-            $sum= 0 + $request->input('value1');
-            $sum+= $request->input('value2');
-            $sum+= $request->input('value3');
-            $sum+= $request->input('value4');
-            $sum+= $request->input('value5');
-            $sum+= $request->input('value6');
-            $chart=Chartaccount::find($request->input('chartvalue'));
-            $account=Account::find($request->input('mainvalue'));
-            $by=Account::find($request->input('byvalue'));
+        $message = '';
+
+        DB::transaction(function () use ($request, &$message) {
+            $sum = 0 + $request->input('value1');
+            $sum += $request->input('value2');
+            $sum += $request->input('value3');
+            $sum += $request->input('value4');
+            $sum += $request->input('value5');
+            $sum += $request->input('value6');
+            $chart = Chartaccount::find($request->input('chartvalue'));
+            $account = Account::find($request->input('mainvalue'));
+            $by = Account::find($request->input('byvalue'));
             $data = [
                 'Date' => $request->input('datevalue'),
                 'chartaccount' => $chart->accountname,
@@ -84,19 +84,19 @@ class PaymentController extends Controller
                 'by' => $by->name,
                 'Total' => $sum,
             ];
-            for ($i=1; $i <=6 ; $i++) {
-                $subaccount_id=$request->input('subvalue' . $i);
-                $amount=$request->input('value' . $i);
-                $subaccount=Subaccount::find($subaccount_id);
-                if ($subaccount){
+            for ($i = 1; $i <= 6; $i++) {
+                $subaccount_id = $request->input('subvalue' . $i);
+                $amount = $request->input('value' . $i);
+                $subaccount = Subaccount::find($subaccount_id);
+                if ($subaccount) {
                     $subaccount->transact($amount);
-                    $data["subaccount$i"]=$subaccount->accountname;
-                    $data["subaccountvalue$i"]=$amount;
+                    $data["subaccount$i"] = $subaccount->accountname;
+                    $data["subaccountvalue$i"] = $amount;
                 }
             }
-            $by->transact(-$sum , false);
-            $payment=Payment::create($data);
-            $message="Payment saved with id " . $payment->id;
+            $by->transact(-$sum, false);
+            $payment = Payment::create($data);
+            $message = "Payment saved with id " . $payment->id;
         });
         return redirect()->route('payment.create')->with(compact('message'));
     }
