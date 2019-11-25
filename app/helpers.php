@@ -3,6 +3,8 @@
 /** These are here while the PHP core version is still served
  * and it will be removed at the end */
 
+use Hamcrest\Type\IsNumeric;
+
 if (!function_exists('dbconnection')) {
     function dbconnection()
     {
@@ -63,5 +65,19 @@ if (!function_exists('activeIfRoute')) {
                 echo ' class="active" ';
             }
         }
+    }
+}
+
+if (!function_exists('array_insert')) {
+    function array_insert_array($array1, $offset, $array2)
+    {
+        if (is_string($offset)) {
+            $keys=array_keys($array1);
+            $offset=array_search($offset, $keys);
+        }
+        $a1 = array_slice($array1, 0, $offset, true);
+        $a3= array_slice($array1, $offset);
+        $newarray=array_merge($a1, $array2, $a3);
+        return $newarray;
     }
 }

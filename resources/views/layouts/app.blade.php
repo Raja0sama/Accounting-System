@@ -122,16 +122,16 @@
                         <li {{ activeIfRoute('general_ledger') }}><a href="{{ route('general_ledger') }}"> <i
                                     class="fa fa-bar-chart"></i>General
                                 Ledger</a></li>
-                        <li {{ activeIfRoute(['chartaccounts.index','accounts.index','subaccounts.index'] )}}>
+                        <li {{ activeIfRoute(['chartaccounts.create','accounts.create','subaccounts.create'] )}}>
                             <a href="#exampledropdownDropdown1" aria-expanded="false" data-toggle="collapse"> <i
                                     class="icon-windows"></i>Create Account</a>
                             <ul id="exampledropdownDropdown1" class="collapse list-unstyled ">
-                                <li {{ activeIfRoute('chartaccounts.index') }}><a
-                                        href="{{ route('chartaccounts.index') }}">Chart Of Account</a></li>
-                                <li {{ activeIfRoute('accounts.index') }}><a href="{{ route('accounts.index') }}">Main
+                                <li {{ activeIfRoute('chartaccounts.create') }}><a
+                                        href="{{ route('chartaccounts.create') }}">Chart Of Account</a></li>
+                                <li {{ activeIfRoute('accounts.create') }}><a href="{{ route('accounts.create') }}">Main
                                         Account</a></li>
-                                <li {{ activeIfRoute('subaccounts.index') }}><a
-                                        href="{{ route('subaccounts.index') }}">Sub Account</a></li>
+                                <li {{ activeIfRoute('subaccounts.create') }}><a
+                                        href="{{ route('subaccounts.create') }}">Sub Account</a></li>
                             </ul>
                         </li>
                         <li

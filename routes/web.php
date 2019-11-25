@@ -32,13 +32,18 @@ Route::group(
             }
         );
 
-        foreach (['payment', 'receipt', 'invoice', 'adjustment'] as $resource) {
+        foreach (['payment', 'receipt', 'adjustment'] as $resource) {
+            $prefix=Str::plural($resource);
             $controller = ucfirst($resource) . 'Controller';
-            Route::resource(Str::plural($resource), $controller)->except(['edit', 'update']);
+            Route::resource($prefix, $controller)->except(['edit', 'update','destroy']);
         }
+
+        Route::resource('invoices', 'InvoiceController');
+
         foreach (['account', 'chartaccount', 'subaccount'] as $resource) {
+            $prefix=Str::plural($resource);
             $controller = ucfirst($resource) . 'Controller';
-            Route::resource(Str::plural($resource), $controller)->except(['create', 'show']);
+            Route::resource($prefix, $controller)->except(['index', 'show']);
         }
 
         Route::get(

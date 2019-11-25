@@ -27,8 +27,7 @@ class TransactionRequest extends FormRequest
         $rules = [
             'datevalue' => 'required|date|before_or_equal:' . Carbon::now(),
             'chartvalue' => 'required|exists:chartaccounts,id',
-            'mainvalue' => 'required|exists:accounts,id',
-            'description' => 'required|max:255'
+            'mainvalue' => 'required|exists:accounts,id'
         ];
         for ($i = 1; $i <= 6; $i++) {
             $fields = '';
@@ -41,6 +40,7 @@ class TransactionRequest extends FormRequest
             $rules['subvalue' . $i] = 'required_without_all:' . $fields . '|required_with:' . 'value' . $i;
             $rules['value' . $i] = 'required_with:' . 'subvalue' . $i;
         }
+        $rules['description']='required|max:255';
         return $rules;
     }
 

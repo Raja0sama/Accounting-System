@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+<title>Payment Voucher Records</title>
 @section('header')
 
 <link rel="stylesheet" type="text/css" href="/core/css/datatable.css">
@@ -17,53 +17,51 @@
         <div class="title"><strong>Payment Voucher Records</strong></div>
         <div class="block-body">
             <form name="form" id="form1" action="" method="post">
-
-                <div>
-                    <br>
-                    <div align="center" id="txtshow">
-                        <div class="table-responsive">
-                            <table id="tables" class="display">
-                                <thead>
-                                    <tr class="table-active">
-                                        <th class="table-danger">ID</th>
-                                        <th>Date</th>
-                                        <th>Chart Account</th>
-                                        <th>Main Account</th>
-                                        <th>SubAccount</th>
-                                        <th>SubAccount</th>
-                                        <th>SubAccount</th>
-                                        <th>SubAccount</th>
-                                        <th>SubAccount</th>
-                                        <th>SubAccount</th>
-                                        <th>Through</th>
-                                        <th>Description</th>
-                                        <th>Total</th>
-                                        <th>Print</th>
-                                    </tr>
-                                    <thead>
-                                    <tbody>
-                                        @foreach ($payments as $p)
-                                        <tr>
-                                            <td class="table-active">{{ $p->id  }}</td>
-                                            <td class="table-secondary">{{ $p->Date   }}</td>
-                                            <td>{{ $p->chartaccount   }}</td>
-                                            <td>{{ $p->mainaccount   }}</td>
-                                            <td>{{ $p->subaccount1   }}</td>
-                                            <td>{{ $p->subaccount2   }}</td>
-                                            <td>{{ $p->subaccount3   }}</td>
-                                            <td>{{ $p->subaccount4   }}</td>
-                                            <td>{{ $p->subaccount5   }}</td>
-                                            <td>{{ $p->subaccount6   }}</td>
-                                            <td>{{ $p->by   }}</td>
-                                            <td>{{ $p->Description   }}</td>
-                                            <td class="table-active">{{ $p->Total   }}</td>
-                                            <td><a href="{{ route('payments.show',$p->id)}}">Print</a> </td>
-                                        </tr>
-                                        @endforeach
-                                <tbody>
-                            </table>
-                        </div>
+                <br>
+                <div align="center" id="txtshow">
+                    <div class="table-responsive">
+                        <table id="tables" class="display">
+                            <thead>
+                                <tr class="table-active">
+                                    <th class="table-danger">ID</th>
+                                    <th>Date</th>
+                                    <th>Chart Account</th>
+                                    <th>Main Account</th>
+                                    <th>SubAccount</th>
+                                    <th>SubAccount</th>
+                                    <th>SubAccount</th>
+                                    <th>SubAccount</th>
+                                    <th>SubAccount</th>
+                                    <th>SubAccount</th>
+                                    <th>Through</th>
+                                    <th>Description</th>
+                                    <th>Total</th>
+                                    <th>Print</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($payments as $p)
+                                <tr>
+                                    <td class="table-active">{{ $p->id  }}</td>
+                                    <td class="table-secondary">{{ $p->Date   }}</td>
+                                    <td>{{ $p->chartaccount   }}</td>
+                                    <td>{{ $p->mainaccount   }}</td>
+                                    <td>{{ $p->subaccount1   }}</td>
+                                    <td>{{ $p->subaccount2   }}</td>
+                                    <td>{{ $p->subaccount3   }}</td>
+                                    <td>{{ $p->subaccount4   }}</td>
+                                    <td>{{ $p->subaccount5   }}</td>
+                                    <td>{{ $p->subaccount6   }}</td>
+                                    <td>{{ $p->by   }}</td>
+                                    <td>{{ $p->Description   }}</td>
+                                    <td class="table-active">{{ $p->Total   }}</td>
+                                    <td><a href="{{ route('payments.show',$p->id)}}">Print</a> </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
+                </div>
             </form>
         </div>
     </div>

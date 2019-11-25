@@ -8,15 +8,16 @@ class Subaccount extends Model
 {
     protected $primaryKey='subid';
 
-    public function mainaccount(){
-        return $this->belongsTo(Account::class,'accountid');
+    public function mainaccount()
+    {
+        return $this->belongsTo(Account::class, 'accountid');
     }
 
     public function transact($amount)
     {
         if ($this->type == 'D') {
             $this->amount += $amount;
-        } elseif ($this->type == 'C'){
+        } elseif ($this->type == 'C') {
             $this->amount -= $amount;
         }
         $this->save();

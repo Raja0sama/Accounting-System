@@ -44,26 +44,26 @@ class ReceiptController extends Controller
         $message = '';
 
         DB::transaction(function () use ($request, &$message) {
-            $sum = 0 + $request->input('value1');
-            $sum += $request->input('value2');
-            $sum += $request->input('value3');
-            $sum += $request->input('value4');
-            $sum += $request->input('value5');
-            $sum += $request->input('value6');
-            $chart = Chartaccount::find($request->input('chartvalue'));
-            $account = Account::find($request->input('mainvalue'));
-            $by = Account::find($request->input('byvalue'));
+            $sum = 0 + $request->value1;
+            $sum += $request->value2;
+            $sum += $request->value3;
+            $sum += $request->value4;
+            $sum += $request->value5;
+            $sum += $request->value6;
+            $chart = Chartaccount::find($request->chartvalue);
+            $account = Account::find($request->mainvalue);
+            $by = Account::find($request->byvalue);
             $data = [
-                'Date' => $request->input('datevalue'),
+                'Date' => $request->datevalue,
                 'chartaccount' => $chart->accountname,
                 'mainaccount'  => $account->name,
-                'description'  => $request->input('description'),
+                'description'  => $request->description,
                 'by' => $by->name,
                 'Total' => $sum,
             ];
             for ($i = 1; $i <= 6; $i++) {
-                $subaccount_id = $request->input('subvalue' . $i);
-                $amount = $request->input('value' . $i);
+                $subaccount_id = $request["subvalue$i"];
+                $amount = $request["value$i"];
                 $subaccount = Subaccount::find($subaccount_id);
                 if ($subaccount) {
                     $subaccount->transact(- $amount);  // This is opposite to PaymentController since this is a receipt
