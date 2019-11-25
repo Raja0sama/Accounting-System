@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
 @section('header')
-<title>Payment Voucher</title>
-
+<title>Receipt Voucher</title>
 <link rel="stylesheet" type="text/css" href="https://printjs-4de6.kxcdn.com/print.min.css">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <style>
@@ -20,7 +19,7 @@
 @section('content')
 <div class="col-lg-12">
     <div class="block">
-        <div class="title"><strong>Print Payment Voucher</strong></div>
+        <div class="title"><strong>Print Receipt Voucher</strong></div>
         <div class="block-body">
             <form name="form" id="showform" action="" method="post" class="form-horizontal">
                 <div id="printJS-form">
@@ -29,13 +28,13 @@
                             <div class="row">
                                 <div class="col-md-5">
                                     <label class="col-md-4 control-label" for="selectbasic">No</label>
-                                    <input class="form-control" value="{{ $payment->id }}">
+                                    <input class="form-control" value="{{ $receipt->id }}">
                                 </div>
                                 <div class="col-md-4">
                                     <label class="col-md-4 control-label" for="selectbasic"
                                         class="form-control">Date</label>
                                     <input type="text" id="chartvalue" name="chartvalue" class="form-control"
-                                        value="{{ $payment->Date }}">
+                                        value="{{ $receipt->Date }}">
                                 </div>
                             </div>
                         </div>
@@ -48,22 +47,22 @@
                                     <label class="col-md-8 control-label" for="selectbasic">ChartAccount</label>
                                     <div class="show_product"></div>
                                     <input type="text" id="chartvalue" name="chartvalue" class="form-control"
-                                        value="{{ $payment->chartaccount }}">
+                                        value="{{ $receipt->chartaccount }}">
                                 </div>
                                 <div class="col-md-3">
                                     <label class="col-md-8 control-label" for="selectbasic">MainAccount</label>
                                     <input type="text" id="chartvalue" name="chartvalue" class="form-control"
-                                        value="{{ $payment->mainaccount }}">
+                                        value="{{ $receipt->mainaccount }}">
                                 </div>
                                 <div class="col-md-3">
                                     <label class="col-md-8 control-label" for="selectbasic">SubAccount</label>
                                     <input type="text" id="chartvalue" name="chartvalue" class="form-control"
-                                        value="{{ $payment->subaccount1 }}">
+                                        value="{{ $receipt->subaccount1 }}">
                                 </div>
                                 <div class="col-md-3">
                                     <label class="col-md-8 control-label" for="selectbasic">Amount</label>
                                     <input class="col-md-8 form-control" id="value1" name="value1"
-                                        value="{{ $payment->subaccountvalue1 }}">
+                                        value="{{ $receipt->subaccountvalue1 }}">
                                 </div>
                             </div>
                         </div>
@@ -76,11 +75,11 @@
                                 <div class="col-md-3"></div>
                                 <div class="col-md-3">
                                     <input type="text" id="subaccount{{$i}}" name="subaccount{{$i}}"
-                                        class="form-control" value="{{ $payment['subaccount' . $i] }}">
+                                        class="form-control" value="{{ $receipt['subaccount' . $i] }}">
                                 </div>
                                 <div class="col-md-3">
                                     <input class="col-md-8 form-control" id="subaccountvalue{{$i}}"
-                                        name="subaccountvalue{{$i}}" value="{{ $payment['subaccountvalue' . $i] }}">
+                                        name="subaccountvalue{{$i}}" value="{{ $receipt['subaccountvalue' . $i] }}">
                                 </div>
                             </div>
                         </div>
@@ -97,7 +96,7 @@
                                     <label class="col-md-8 control-label" for="selectbasic">Total</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <label class="col-md-8 control-label" for="selectbasic">Rs. {{ $payment->Total }}
+                                    <label class="col-md-8 control-label" for="selectbasic">Rs. {{ $receipt->Total }}
                                     </label>
                                 </div>
                             </div>
@@ -110,14 +109,14 @@
                                     <label class="col-md-9 control-label" for="selectbasic">Through</label>
 
                                     <input type="text" id="chartvalue" name="chartvalue" class="form-control"
-                                        value="{{ $payment->by}}">
+                                        value="{{ $receipt->by}}">
                                 </div>
                             </div>
                         </div>
                     </div>
                     <label class="col-sm-1 form-control-label">Description</label>
                     <textarea class="col-sm-5 form-control" id="description"
-                        name="description">{{ $payment->Description }}</textarea>
+                        name="description">{{ $receipt->Description }}</textarea>
 
                 </div>
             </form>
@@ -125,7 +124,7 @@
     </div>
 </div>
 <button type="button" class="btn btn-primary" style="height:41px ; width:101px ;margin-left: -16px; margin-top: 33px;"
-    onclick="printJS ({ printable: 'printJS-form', type: 'html' , header: 'Payment Voucher' })">Print Form</button>
+    onclick="printJS ({ printable: 'printJS-form', type: 'html' , header: 'receipt Voucher' })">Print Form</button>
 @endsection
 
 @section('footer')

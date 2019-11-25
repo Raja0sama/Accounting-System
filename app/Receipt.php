@@ -6,5 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Receipt extends Model
 {
+    protected $guarded = ['id'];
     protected $dates = [ 'date'];
 }

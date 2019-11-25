@@ -8,5 +8,4 @@ class Payment extends Model
 {
     protected $guarded = ['id'];
     protected $dates = [ 'date'];
-
 }

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('header')
+<title>Payment Voucher</title>
 @endsection
 
 @section('content')
