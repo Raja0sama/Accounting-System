@@ -1,5 +1,6 @@
 <?php
 
+use App\Account;
 use Illuminate\Http\Request;
 
 /*
@@ -63,18 +64,22 @@ Route::middleware('auth')->prefix('api/')->group(
             'accountsOfChart',
             function (Request $request) {
                 $chart_id = request()->input('chart_id');
-                $accounts = App\Account::where('chartid', '=', $chart_id)->get();
-                $query = App\Account::where('chartid', '=', $chart_id)->toSql();
-                return compact('accounts', 'query');
+                $accounts = Account::where('chartid', '=', $chart_id)->get();
+                return compact('accounts');
             }
         )->name('accountsOfChart');
 
         Route::get(
             'subaccountsOfAccount',
             function (Request $request) {
-                $account_id = request()->input('account_id');
-                $subAccounts = App\Subaccount::where('accountid', '=', $account_id)->get();
-                return compact('subAccounts');
+                $account_id = request('account_id');
+                $account=Account::find($account_id);
+                if ($account) {
+                    $subaccounts = $account->subaccounts;
+                } else {
+                    $subaccounts=[];
+                }
+                return compact('account_id', 'account', 'subaccounts');
             }
         )->name('subaccountsOfAccount');
     }
