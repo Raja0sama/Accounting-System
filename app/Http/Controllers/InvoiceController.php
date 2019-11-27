@@ -22,7 +22,7 @@ class InvoiceController extends Controller
     public function index()
     {
         $invoices=Invoice::all();
-        return view('invoice_index', compact('invoices'));
+        return view('invoice.index', compact('invoices'));
     }
 
     /**
@@ -32,7 +32,7 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        return view('invoice_create');
+        return view('invoice.create');
     }
 
     /**
@@ -86,7 +86,7 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-        return view('invoice_show', compact('invoice'));
+        return view('invoice.show', compact('invoice'));
     }
 
     /**
@@ -97,7 +97,7 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
-        return view('invoice_edit', compact('invoice'));
+        return view('invoice.edit', compact('invoice'));
     }
 
     /**

@@ -804,6 +804,7 @@ nav#sidebar li::before {
 
 nav#sidebar li.active::before {
   background: #212529;
+  color: #a5a7ab;
 }
 
 nav#sidebar li.active > a {
@@ -817,6 +818,8 @@ nav#sidebar li.active i {
 
 nav#sidebar li li.active > a {
   background: #292c32;
+  color: #a5a7ab;
+
 }
 
 nav#sidebar.shrinked {

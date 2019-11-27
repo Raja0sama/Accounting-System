@@ -20,7 +20,7 @@ class ReceiptController extends Controller
     public function index()
     {
         $receipts=Receipt::all();
-        return view('receipt_index', compact('receipts'));
+        return view('receipt.index', compact('receipts'));
     }
 
     /**
@@ -30,7 +30,7 @@ class ReceiptController extends Controller
      */
     public function create()
     {
-        return view('receipt_create');
+        return view('receipt.create');
     }
 
     /**
@@ -86,7 +86,7 @@ class ReceiptController extends Controller
      */
     public function show(Receipt $receipt)
     {
-        return view('receipt_show', compact('receipt'));
+        return view('receipt.show', compact('receipt'));
     }
 
     /**

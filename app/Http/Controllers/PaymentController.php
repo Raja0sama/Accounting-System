@@ -20,7 +20,7 @@ class PaymentController extends Controller
     public function index()
     {
         $payments=Payment::all();
-        return view('payment_index', compact('payments'));
+        return view('payment.index', compact('payments'));
     }
 
     /**
@@ -30,7 +30,7 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        return view('payment_create');
+        return view('payment.create');
     }
 
     /**
@@ -111,7 +111,7 @@ class PaymentController extends Controller
      */
     public function show(Payment $payment)
     {
-        return view('payment_show', compact('payment'));
+        return view('payment.show', compact('payment'));
     }
 
     /**

@@ -1,7 +1,10 @@
 <?php
 
 use App\Account;
+use App\Subaccount;
+use App\Chartaccount;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,7 +47,7 @@ Route::group(
         foreach (['account', 'chartaccount', 'subaccount'] as $resource) {
             $prefix=Str::plural($resource);
             $controller = ucfirst($resource) . 'Controller';
-            Route::resource($prefix, $controller)->except(['index', 'show']);
+            Route::resource($prefix, $controller)->except(['show']);
         }
 
         Route::get(
@@ -59,6 +62,29 @@ Route::group(
 Route::middleware('auth')->prefix('api/')->group(
     function () {
 
+        Route::get(
+            'chartaccounts',
+            function (Request $request) {
+                $chartaccounts = Chartaccount::all();
+                return compact('chartaccounts');
+            }
+        );
+
+        Route::get(
+            'accounts',
+            function (Request $request) {
+                $accounts = Account::all();
+                return compact('accounts');
+            }
+        );
+
+        Route::get(
+            'subaccounts',
+            function (Request $request) {
+                $subaccounts = Subaccount::all();
+                return compact('subaccounts');
+            }
+        );
 
         Route::get(
             'accountsOfChart',

@@ -21,7 +21,7 @@ class AdjustmentController extends Controller
     public function index()
     {
         $adjustments=Adjustment::all();
-        return view('adjustment_index', compact('adjustments'));
+        return view('adjustment.index', compact('adjustments'));
     }
 
     /**
@@ -31,7 +31,7 @@ class AdjustmentController extends Controller
      */
     public function create()
     {
-        return view('adjustment_create');
+        return view('adjustment.create');
     }
 
     /**
@@ -87,7 +87,7 @@ class AdjustmentController extends Controller
      */
     public function show(Adjustment $adjustment)
     {
-        return view('adjustment_show')->with(compact('adjustment'));
+        return view('adjustment.show')->with(compact('adjustment'));
     }
 
     /**

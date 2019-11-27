@@ -16,7 +16,7 @@ class CreateChartaccountsTable extends Migration
         Schema::create('chartaccounts', function (Blueprint $table) {
             $table->bigIncrements('id', true);
             $table->string('accountname', 50);
-            $table->float('amount', 10, 0);
+            $table->float('amount', 10, 0)->default(0);
             $table->string('chartid', 30);
             $table->string('type', 10);
             $table->timestamps();

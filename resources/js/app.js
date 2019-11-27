@@ -30,13 +30,13 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 window.VueApp = new Vue({
     el: '#app',
     data: {
-        v1:null,
-        v2:null,
-        v3:null,
-        v4:null,
-        v5:null,
+        v1: null,
+        v2: null,
+        v3: null,
+        v4: null,
+        v5: null,
         v6: null,
-        chartaccount:null,
+        chartaccount: null,
         chartaccount1: null,
         mainaccount: null,
         mainaccount1: null,
@@ -46,7 +46,17 @@ window.VueApp = new Vue({
         mainaccounts1: [],
         subaccounts: [],
         subaccounts1: [],
-        CreditDebit: null
+        CreditDebit: null,
+        chartaccounts: [],
+        accounts: [],
+        newChartaccount: null,
+        newChartid: null,
+        newCharttype: null,
+        dataTableNode: null,
+        dataTableOptions: null,
+        errors: null,
+        message: null,
+        editChartaccount_id: 0
     },
     computed: {
         total: function () {
@@ -55,12 +65,15 @@ window.VueApp = new Vue({
         }
     },
     watch: {
+        chartaccounts: function () {
+            Vue.nextTick(this.setupDataTable);
+        },
         chartaccount: function (chartid) {
             var vm = this;
             axios.get('/api/accountsOfChart?chart_id=' + chartid).then(function (result) {
                 vm.mainaccounts = result.data.accounts;
                 if (vm.mainaccounts && vm.mainaccounts.length == 1) {
-                    vm.mainaccount=vm.mainaccounts[0].id
+                    vm.mainaccount = vm.mainaccounts[0].id
                 } else {
                     vm.mainaccount = null;
                 }
@@ -108,6 +121,139 @@ window.VueApp = new Vue({
             })
         }
 
+    },
+
+    methods: {
+
+        createChartaccount: function () {
+            vm = this;
+            data = {
+                'accountname': this.newChartaccount,
+                'chartid': this.newChartid,
+                'type': this.newCharttype
+            };
+            axios.post('/chartaccounts',data).then(function(result){
+                vm.getChartaccounts();
+                vm.newChartaccount = '';
+                vm.newChartid = '';
+                vm.newCharttype = null;
+                vm.errors = null;
+                vm.message = null;
+                if (result.data.message) {
+                    vm.message = result.data.message
+                    $("#message.alert-success").show();
+                    setTimeout( function() {$( "#message.alert-success" ).fadeOut(2500,'swing')} ,2000);
+                }
+            }).catch(function (error) {
+                vm.message = null;
+                vm.errors = error.response.data.errors;
+            });
+        },
+
+        updateChartaccount: function () {
+            vm = this;
+            data = {
+                'accountname': vm.newChartaccount,
+                'chartid': vm.newChartid,
+                'type': vm.newCharttype
+            };
+            axios.patch('/chartaccounts/'+ vm.editChartaccount_id,data).then(function(result){
+                vm.getChartaccounts();
+                vm.cancelEdit();
+                if (result.data.message) {
+                    vm.message = result.data.message
+                    $("#message.alert-success").show();
+                    setTimeout( function() {$( "#message.alert-success" ).fadeOut(2500,'swing')} ,2000);
+                }
+            }).catch(function (error) {
+                vm.message = null;
+                vm.errors = error.response.data.errors;
+            });
+        },
+
+        deleteChartaccount: function (id) {
+            vm = this;
+            axios.delete('/chartaccounts/' + id).then((result) => {
+                vm.getChartaccounts();
+                vm.errors = null;
+                vm.message = null;
+                if (result.data.message) {
+                    vm.message = result.data.message
+                    $("#message.alert-success").show();
+                    setTimeout( function() {$( "#message.alert-success" ).fadeOut(2500,'swing')} ,2000);
+                }
+            }).catch(function (error) {
+                vm.message = null;
+                vm.errors = error.response.data.errors;
+            });
+
+        },
+
+        editChartaccount: function (id) {
+            vm = this;
+            record = vm.chartaccounts.find(function (record) {
+                return record.id == id;
+            })
+            vm.editChartaccount_id = id
+            vm.newChartaccount = record.accountname;
+            vm.newChartid = record.chartid;
+            vm.newCharttype = record.type;
+        },
+
+        cancelEdit: function () {
+            vm = this;
+            vm.editChartaccount_id = 0
+            vm.newChartaccount = '';
+            vm.newChartid = ''
+            vm.newCharttype = null
+            vm.errors = null
+            vm.message = null
+        },
+
+        dataTable: function(node, options){
+            this.dataTableNode = node;
+            this.dataTableOptions = options;
+        },
+
+        setupDataTable: function () {
+            if (this.dataTableNode) {
+                tableNode = $(this.dataTableNode);
+                this.destroyDataTable();
+                tableNode.dataTable(this.dataTableOptions);
+            }
+        },
+
+        destroyDataTable: function () {
+            if (this.dataTableNode) {
+                tableNode = $(this.dataTableNode);
+                table = tableNode.DataTable();
+                if (table) {
+                    table.destroy();
+                }
+            }
+        },
+
+        getChartaccounts: function (onSuccess) {
+            var vm = this;
+            axios.get('/api/chartaccounts').then(function (result) {
+                vm.destroyDataTable()
+                vm.chartaccounts = result.data.chartaccounts;
+            })
+        },
+
+        getAccounts: function () {
+            var vm = this;
+            axios.get('/api/accounts').then(function (result) {
+                vm.accounts = result.data.accounts;
+            })
+        },
+
+        getSubaccounts: function () {
+            var vm = this;
+            axios.get('/api/subaccounts').then(function (result) {
+                vm.subaccounts = result.data.subaccounts;
+            })
+        },
     }
 
 });

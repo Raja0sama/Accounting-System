@@ -56,12 +56,13 @@ if (!function_exists('activeIfRoute')) {
         $currentroute = Route::currentRouteName();
         if (is_array($routes)) {
             foreach ($routes as $route) {
-                if (strpos($currentroute, $route) !== false) {
+                if ($currentroute==$route) {
                     echo ' class="active" ';
+                    break;
                 }
             }
         } elseif (is_string($routes)) {
-            if (strpos($currentroute, $routes) !== false) {
+            if ($currentroute==$routes) {
                 echo ' class="active" ';
             }
         }
@@ -79,5 +80,21 @@ if (!function_exists('array_insert')) {
         $a3= array_slice($array1, $offset);
         $newarray=array_merge($a1, $array2, $a3);
         return $newarray;
+    }
+}
+
+if (!function_exists('error')) {
+    function error($messages, $status=500)
+    {
+        $errors=[];
+        if (is_string($messages)) {
+            $errors[]=[$messages];
+        }
+        if (is_array($messages)) {
+            foreach ($messages as $message) {
+                $errors[]=[$message];
+            }
+        }
+        return response(['errors'=>$errors], $status);
     }
 }

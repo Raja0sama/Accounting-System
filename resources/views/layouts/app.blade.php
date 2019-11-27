@@ -37,6 +37,11 @@
         <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+        <style>
+            [v-cloak] {
+                display: none;
+            }
+        </style>
 
         @yield('header')
 
@@ -181,6 +186,12 @@
                                 </ul>
                             </span>
                             @endif
+                            <span v-cloak v-if='message' id='message' class="alert alert-success"
+                                style="position:absolute; z-index:99999 ; left:15%; top:4.5rem">
+                                <ul>
+                                    <li>@{{ message }}</li>
+                                </ul>
+                            </span>
 
                         </ul>
                     </div>
@@ -200,6 +211,18 @@
                                     </ul>
                                 </div>
                                 @endif
+
+                                {{-- This is for Vue / axios error messages --}}
+                                <div v-if='errors' v-cloak id='vue-errors' class="alert alert-danger col-md-5">
+                                    <div style="display:block; float:right">
+                                        <a href='#' style='right; color:red ; weight:bold; text-decoration:none'
+                                            v-on:click='errors=null'>X</a>
+                                    </div>
+                                    <ul>
+                                        <li v-for='error in errors'>@{{ error[0] }}</li>
+                                    </ul>
+                                </div>
+
                                 @yield('content')
 
                             </div>
