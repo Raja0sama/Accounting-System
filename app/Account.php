@@ -19,7 +19,6 @@ class Account extends Model
 
     public function transact($amount, $propagate = true)
     {
-
         if ($this->type == 'D') {
             $this->amount += $amount;
         } elseif ($this->type == 'C') {
