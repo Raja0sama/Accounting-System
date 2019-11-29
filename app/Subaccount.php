@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Subaccount extends Model
 {
     protected $primaryKey='subid';
+    protected $guarded=['subid'];
 
     public function mainaccount()
     {

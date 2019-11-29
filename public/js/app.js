@@ -49394,12 +49394,15 @@ window.VueApp = new Vue({
     newChartid: null,
     newCharttype: null,
     newAccount: null,
+    newSubaccount: null,
+    newAccount_id: null,
     dataTableNode: null,
     dataTableOptions: null,
     errors: null,
     message: null,
     editChartaccount_id: 0,
-    editAccount_id: 0
+    editAccount_id: 0,
+    editSubaccount_id: 0
   },
   computed: {
     total: function total() {
@@ -49413,6 +49416,9 @@ window.VueApp = new Vue({
       Vue.nextTick(this.setupDataTable);
     },
     accounts: function accounts() {
+      Vue.nextTick(this.setupDataTable);
+    },
+    subaccounts: function subaccounts() {
       Vue.nextTick(this.setupDataTable);
     },
     chartaccount: function chartaccount(chartid) {
@@ -49573,13 +49579,56 @@ window.VueApp = new Vue({
       vm.newAccount = record.name;
       vm.newChartid = record.chartid;
     },
+    createSubaccount: function createSubaccount() {
+      vm = this;
+      data = {
+        'accountname': this.newSubaccount,
+        'accountid': this.newAccount_id
+      };
+      axios.post('/subaccounts', data).then(function (result) {
+        vm.getSubaccounts();
+        vm.cancelEdit();
+        vm.showMessage(result.data.message);
+      })["catch"](vm.showError);
+    },
+    deleteSubaccount: function deleteSubaccount(id) {
+      vm = this;
+      axios["delete"]('/subaccounts/' + id).then(function (result) {
+        vm.getSubaccounts();
+        vm.showMessage(result.data.message);
+      })["catch"](vm.showError);
+    },
+    updateSubaccount: function updateSubaccount() {
+      vm = this;
+      data = {
+        'accountname': vm.newSubaccount,
+        'accountid': vm.newAccount_id
+      };
+      axios.patch('/subaccounts/' + vm.editSubaccount_id, data).then(function (result) {
+        vm.getSubaccounts();
+        vm.cancelEdit();
+        vm.showMessage(result.data.message);
+      })["catch"](vm.showError);
+    },
+    editSubaccount: function editSubaccount(id) {
+      vm = this;
+      record = vm.subaccounts.find(function (record) {
+        return record.subid == id;
+      });
+      vm.editSubaccount_id = id;
+      vm.newSubaccount = record.accountname;
+      vm.newAccount_id = record.accountid;
+    },
     cancelEdit: function cancelEdit() {
       vm = this;
       vm.editChartaccount_id = 0;
       vm.editAccount_id = 0;
+      vm.editSubaccount_id = 0;
       vm.newChartaccount = '';
       vm.newAccount = '';
-      vm.newChartid = '';
+      vm.newSubaccount = '';
+      vm.newChartid = null;
+      vm.newAccount_id = null;
       vm.newCharttype = null;
       vm.errors = null;
       vm.message = null;

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Subaccount;
 use Illuminate\Http\Request;
+use App\Http\Requests\SubaccountRequest;
 
 class SubaccountController extends Controller
 {
@@ -14,7 +15,7 @@ class SubaccountController extends Controller
      */
     public function index()
     {
-        //
+        return $this->create();
     }
 
     /**
@@ -24,7 +25,7 @@ class SubaccountController extends Controller
      */
     public function create()
     {
-        //
+        return view('subaccount.create');
     }
 
     /**
@@ -33,9 +34,25 @@ class SubaccountController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SubaccountRequest $request)
     {
-        //
+        try {
+            $subaccount=Subaccount::create($request->input());
+            if ($subaccount) {
+                $message='Sub Account with id ' . $subaccount->subid . ' was created';
+                return compact('message');
+            } else {
+                $errors=[];
+                $errors['create']=['Error while creating new record'];
+                return compact('errors');
+            }
+        } catch (QueryException $exception) {
+            $errors['create']=[$exception->errorInfo  ?? ($exception->getmessage() ?? 'Error creating Account')];
+            return response(['errors'=>$errors], 500);
+        } catch (Exception $exception) {
+            $errors['create']=[$exception->errorInfo  ?? ($exception->getmessage() ?? 'Error creating Account')];
+            return response(['errors'=>$errors], 500);
+        }
     }
 
     /**
@@ -67,9 +84,19 @@ class SubaccountController extends Controller
      * @param  \App\Subaccount  $subaccount
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Subaccount $subaccount)
+    public function update(SubaccountRequest $request, Subaccount $subaccount)
     {
-        //
+        try {
+            $subaccount->update($request->input());
+            $message='Sub Account with id ' . $subaccount->subid . ' was updated';
+            return compact('message');
+        } catch (QueryException $exception) {
+            $errors['create']=[$exception->errorInfo  ?? ($exception->getmessage() ?? 'Error updating Chart Account')];
+            return response(['errors'=>$errors], 500);
+        } catch (Exception $exception) {
+            $errors['create']=[$exception->errorInfo  ?? ($exception->getmessage() ?? 'Error updating Chart Account')];
+            return response(['errors'=>$errors], 500);
+        }
     }
 
     /**
@@ -80,6 +107,9 @@ class SubaccountController extends Controller
      */
     public function destroy(Subaccount $subaccount)
     {
-        //
+        $name=$subaccount->accountname;
+        $subaccount->delete();
+        $message='Sub Account ' . $name . ' was deleted';
+        return compact('message');
     }
 }
