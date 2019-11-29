@@ -16,12 +16,7 @@ The approach we will take is to rewrite existing functionality utilising followi
 8.  Resources (compiled via webpack/laravel mix)
 9.  Blade Views
 10. Vue / AJAX / RESTful API
-11. Other ??? 
 
-Development will mostly follow a TDD approach and will utilize following tools :
 
-1. VSCode with docker and devcontainer 
-2. PHPCS/PHPCBF for autostyling
-3. PHPUNIT
-4. GitHub Actions for running tests and checking styling on PRs
+
 
