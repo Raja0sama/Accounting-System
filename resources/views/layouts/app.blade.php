@@ -128,9 +128,9 @@
                                     class="fa fa-bar-chart"></i>General
                                 Ledger</a></li>
                         <li {{ activeIfRoute(['chartaccounts.create','accounts.create','subaccounts.create'] )}}>
-                            <a href="#exampledropdownDropdown1" aria-expanded="false" data-toggle="collapse"> <i
+                            <a href="ul#Accounts" aria-expanded="false" data-toggle="collapse"> <i
                                     class="icon-windows"></i>Create Account</a>
-                            <ul id="exampledropdownDropdown1" class="collapse list-unstyled ">
+                            <ul id="Accounts" class="collapse list-unstyled ">
                                 <li {{ activeIfRoute('chartaccounts.create') }}><a
                                         href="{{ route('chartaccounts.create') }}">Chart Of Account</a></li>
                                 <li {{ activeIfRoute('accounts.create') }}><a href="{{ route('accounts.create') }}">Main
@@ -141,9 +141,9 @@
                         </li>
                         <li
                             {{ activeIfRoute(['receipts.index','payments.index','adjustments.index','invoices.index'] )}}>
-                            <a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i
+                            <a href="ul#Records" aria-expanded="false" data-toggle="collapse"> <i
                                     class="icon-windows"></i>All Records</a>
-                            <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
+                            <ul id="Records" class="collapse list-unstyled ">
                                 <li {{ activeIfRoute('payments.index') }}><a
                                         href="{{ route('payments.index') }}">Payment
                                         Voucher
@@ -175,24 +175,7 @@
                     </div>
                     <!-- Breadcrumb-->
                     <div class="container-fluid">
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="paymentdesign">Home</a></li>
-                            <li class="breadcrumb-item active">payment -- fix this -- </li>
-                            @if (Session::has('message'))
-                            <span id='message' class="alert alert-success"
-                                style="position:absolute; z-index:99999 ; left:15%; top:4.5rem">
-                                <ul>
-                                    <li>{!! Session::get('message')!!}</li>
-                                </ul>
-                            </span>
-                            @endif
-                            <span v-cloak v-if='message' id='message' class="alert alert-success"
-                                style="position:absolute; z-index:99999 ; left:15%; top:4.5rem">
-                                <ul>
-                                    <li>@{{ message }}</li>
-                                </ul>
-                            </span>
-
+                        <ul id='breadcrumb' class="breadcrumb">
                         </ul>
                     </div>
                     <section class="no-padding-top">
@@ -211,7 +194,6 @@
                                     </ul>
                                 </div>
                                 @endif
-
                                 {{-- This is for Vue / axios error messages --}}
                                 <div v-if='errors' v-cloak id='vue-errors' class="alert alert-danger col-md-5">
                                     <div style="display:block; float:right">
@@ -222,8 +204,21 @@
                                         <li v-for='error in errors'>@{{ error[0] }}</li>
                                     </ul>
                                 </div>
-
                                 @yield('content')
+                                @if (Session::has('message'))
+                                <span id='message' class="alert alert-success"
+                                    style="position:absolute; z-index:99999 ; right:30px; top:60px">
+                                    <ul>
+                                        <li>{!! Session::get('message')!!}</li>
+                                    </ul>
+                                </span>
+                                @endif
+                                <span v-cloak v-if='message' id='message' class="alert alert-success"
+                                    style="position:absolute; z-index:99999 ; right:30px; top:60px">
+                                    <ul>
+                                        <li>@{{ message }}</li>
+                                    </ul>
+                                </span>
 
                             </div>
                         </div>
@@ -252,6 +247,10 @@
     <script src="/core/vendor/jquery-validation/jquery.validate.min.js"></script>
     <script src="/core/js/front.js"></script>
 
+
+
+    @yield('footer')
+
     @if(Session::has('message'))
     <script src='/js/jquery-ui.min.js'></script>
     <script>
@@ -259,6 +258,17 @@
     </script>
     @endif
 
-    @yield('footer')
+    <script>
+        if ('{{ activeIfRoute(['chartaccounts.create','accounts.create','subaccounts.create']) }}') {
+            setTimeout(function() { $('ul#Accounts').addClass('show'); } ,200);
+        }
+        if ('{{ activeIfRoute(['receipts.index','payments.index','adjustments.index','invoices.index'] ) }}') {
+            setTimeout(function() { $('ul#Records').addClass('show') } ,200);
+        }
+
+        $('ul#breadcrumb').html('<li class="breadcrumb-item"><a href="/">Home</a></li>'+
+                                '<li class="breadcrumb-item active"> ' + document.title + '</li>');
+
+    </script>
 
 </html>

@@ -5,20 +5,20 @@
 <link rel="stylesheet" type="text/css" href="/core/css/datatable.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css">
 <style>
-    [v-cloak] {
+    [cloak] {
         display: none !important;
     }
 </style>
 @endsection
 
 @section('content')
-<div class="col-lg-12" v-cloak>
+<div class="col-lg-12" cloak>
     <div class="block">
         <div class="title"><strong>Receipt Voucher Records</strong></div>
         <div class="block-body">
             <form name="form" id="form1" action="" method="post">
                 <br>
-                <div align="center" id="txtshow">
+                <div id="txtshow">
                     <div class="table-responsive">
                         <table id="tables" class="display">
                             <thead>
@@ -92,7 +92,7 @@
                 'pdfHtml5'
             ]
         });
-        $('[v-cloak]').removeAttr('v-cloak');
+        $('[cloak]').removeAttr('cloak');
     } );
 </script>
 

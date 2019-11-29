@@ -53,7 +53,7 @@ Route::group(
         Route::get(
             '/general',
             function () {
-                return redirect()->route('payments.create');
+                return view('underConstruction');
             }
         )->name('general_ledger');
     }

@@ -109,7 +109,7 @@
             ]
         };
         VueApp.getChartaccounts();
-        VueApp.getAccounts('#Accounts', options);
+        VueApp.getAccounts('table#Accounts', options);
     } );
 </script>
 @endsection
