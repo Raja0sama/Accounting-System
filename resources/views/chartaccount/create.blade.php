@@ -58,7 +58,7 @@
                         v-on:click='updateChartaccount'>Update Chart Account</button>
                     <div v-show='chartaccounts && chartaccounts.length ' class="table-responsive">
                         <br>
-                        <table id="tables" class="display">
+                        <table id="Chartaccounts" class="display">
                             <thead>
                                 <tr class="table-active">
                                     <th class="table-danger">ID</th>
@@ -118,8 +118,7 @@
                 'pdfHtml5'
             ]
         };
-        VueApp.dataTable('#tables', options);
-        VueApp.getChartaccounts();
+        VueApp.getChartaccounts('#Chartaccounts', options);
     } );
 </script>
 @endsection

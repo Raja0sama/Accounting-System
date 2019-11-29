@@ -46,7 +46,7 @@ class ChartaccountController extends Controller
                 return compact('message');
             } else {
                 $errors=[];
-                $errors['create']=['Error while creating new reecord'];
+                $errors['create']=['Error while creating new record'];
                 return compact('errors');
             }
         } catch (QueryException $exception) {

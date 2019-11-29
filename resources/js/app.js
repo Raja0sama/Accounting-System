@@ -52,11 +52,13 @@ window.VueApp = new Vue({
         newChartaccount: null,
         newChartid: null,
         newCharttype: null,
+        newAccount:null,
         dataTableNode: null,
         dataTableOptions: null,
         errors: null,
         message: null,
-        editChartaccount_id: 0
+        editChartaccount_id: 0,
+        editAccount_id: 0
     },
     computed: {
         total: function () {
@@ -66,8 +68,13 @@ window.VueApp = new Vue({
     },
     watch: {
         chartaccounts: function () {
+            console.log('refresh chartaccounts table')
             Vue.nextTick(this.setupDataTable);
         },
+        accounts: function () {
+            Vue.nextTick(this.setupDataTable);
+        },
+
         chartaccount: function (chartid) {
             var vm = this;
             axios.get('/api/accountsOfChart?chart_id=' + chartid).then(function (result) {
@@ -125,6 +132,26 @@ window.VueApp = new Vue({
 
     methods: {
 
+        showError: function (error) {
+            message = error.response.data.message || error.message;
+            vm.message = null;
+            vm.errors = error.response.data.errors || [ [message]]
+
+        },
+
+        showMessage(message) {
+            if (message) {
+                vm.message = message
+                vm.errors=''
+                $("#message.alert-success").show();
+                setTimeout(function () { $("#message.alert-success").fadeOut(2500, 'swing') }, 2000);
+            } else {
+                vm.message = ''
+                vm.errors=''
+                $("#message.alert-success").hide();
+            }
+        },
+
         createChartaccount: function () {
             vm = this;
             data = {
@@ -132,22 +159,11 @@ window.VueApp = new Vue({
                 'chartid': this.newChartid,
                 'type': this.newCharttype
             };
-            axios.post('/chartaccounts',data).then(function(result){
+            axios.post('/chartaccounts', data).then(function (result) {
                 vm.getChartaccounts();
-                vm.newChartaccount = '';
-                vm.newChartid = '';
-                vm.newCharttype = null;
-                vm.errors = null;
-                vm.message = null;
-                if (result.data.message) {
-                    vm.message = result.data.message
-                    $("#message.alert-success").show();
-                    setTimeout( function() {$( "#message.alert-success" ).fadeOut(2500,'swing')} ,2000);
-                }
-            }).catch(function (error) {
-                vm.message = null;
-                vm.errors = error.response.data.errors;
-            });
+                vm.cancelEdit()
+                vm.showMessage(result.data.message)
+            }).catch(vm.showError);
         },
 
         updateChartaccount: function () {
@@ -157,35 +173,19 @@ window.VueApp = new Vue({
                 'chartid': vm.newChartid,
                 'type': vm.newCharttype
             };
-            axios.patch('/chartaccounts/'+ vm.editChartaccount_id,data).then(function(result){
+            axios.patch('/chartaccounts/' + vm.editChartaccount_id, data).then(function (result) {
                 vm.getChartaccounts();
                 vm.cancelEdit();
-                if (result.data.message) {
-                    vm.message = result.data.message
-                    $("#message.alert-success").show();
-                    setTimeout( function() {$( "#message.alert-success" ).fadeOut(2500,'swing')} ,2000);
-                }
-            }).catch(function (error) {
-                vm.message = null;
-                vm.errors = error.response.data.errors;
-            });
+                vm.showMessage(result.data.message)
+            }).catch(vm.showError);
         },
 
         deleteChartaccount: function (id) {
             vm = this;
             axios.delete('/chartaccounts/' + id).then((result) => {
                 vm.getChartaccounts();
-                vm.errors = null;
-                vm.message = null;
-                if (result.data.message) {
-                    vm.message = result.data.message
-                    $("#message.alert-success").show();
-                    setTimeout( function() {$( "#message.alert-success" ).fadeOut(2500,'swing')} ,2000);
-                }
-            }).catch(function (error) {
-                vm.message = null;
-                vm.errors = error.response.data.errors;
-            });
+                vm.showMessage(result.data.message)
+            }).catch(vm.showError);
 
         },
 
@@ -200,17 +200,64 @@ window.VueApp = new Vue({
             vm.newCharttype = record.type;
         },
 
+        createAccount: function () {
+            vm = this;
+            data = {
+                'name': this.newAccount,
+                'chartid': this.newChartid,
+            };
+            axios.post('/accounts', data).then(function (result) {
+                vm.getAccounts();
+                vm.cancelEdit()
+                vm.showMessage(result.data.message)
+            }).catch(vm.showError);
+        },
+
+        deleteAccount: function (id) {
+            vm = this;
+            axios.delete('/accounts/' + id).then((result) => {
+                vm.getAccounts();
+                vm.showMessage(result.data.message)
+            }).catch(vm.showError);
+
+        },
+
+        updateAccount: function () {
+            vm = this;
+            data = {
+                'name': vm.newAccount,
+                'chartid': vm.newChartid,
+            };
+            axios.patch('/accounts/' + vm.editAccount_id, data).then(function (result) {
+                vm.getAccounts();
+                vm.cancelEdit();
+                vm.showMessage(result.data.message)
+            }).catch(vm.showError);
+        },
+
+        editAccount: function (id) {
+            vm = this;
+            record = vm.accounts.find(function (record) {
+                return record.id == id;
+            })
+            vm.editAccount_id = id
+            vm.newAccount = record.name;
+            vm.newChartid = record.chartid;
+        },
+
         cancelEdit: function () {
             vm = this;
             vm.editChartaccount_id = 0
+            vm.editAccount_id = 0
             vm.newChartaccount = '';
+            vm.newAccount = '';
             vm.newChartid = ''
             vm.newCharttype = null
             vm.errors = null
             vm.message = null
         },
 
-        dataTable: function(node, options){
+        dataTable: function (node, options) {
             this.dataTableNode = node;
             this.dataTableOptions = options;
         },
@@ -218,7 +265,6 @@ window.VueApp = new Vue({
         setupDataTable: function () {
             if (this.dataTableNode) {
                 tableNode = $(this.dataTableNode);
-                this.destroyDataTable();
                 tableNode.dataTable(this.dataTableOptions);
             }
         },
@@ -233,24 +279,35 @@ window.VueApp = new Vue({
             }
         },
 
-        getChartaccounts: function (onSuccess) {
+        getChartaccounts: function (table_selector = null, options = null) {
             var vm = this;
             axios.get('/api/chartaccounts').then(function (result) {
+                if (table_selector) {
+                    vm.dataTable(table_selector,options)
+                }
                 vm.destroyDataTable()
                 vm.chartaccounts = result.data.chartaccounts;
             })
         },
 
-        getAccounts: function () {
+        getAccounts: function (table_selector = null, options = null) {
             var vm = this;
             axios.get('/api/accounts').then(function (result) {
+                if (table_selector) {
+                    vm.dataTable(table_selector,options)
+                }
+                vm.destroyDataTable()
                 vm.accounts = result.data.accounts;
             })
         },
 
-        getSubaccounts: function () {
+        getSubaccounts: function (table_selector = null, options = null) {
             var vm = this;
             axios.get('/api/subaccounts').then(function (result) {
+                if (table_selector) {
+                    vm.dataTable(table_selector,options)
+                }
+                vm.destroyDataTable()
                 vm.subaccounts = result.data.subaccounts;
             })
         },

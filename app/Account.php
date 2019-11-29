@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Account extends Model
 {
+    protected $guarded=['id'];
+
     public function chart()
     {
         return $this->belongsTo(Chartaccount::class, 'chartid', 'chartid');

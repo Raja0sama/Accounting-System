@@ -73,7 +73,7 @@ Route::middleware('auth')->prefix('api/')->group(
         Route::get(
             'accounts',
             function (Request $request) {
-                $accounts = Account::all();
+                $accounts = Account::with('chart')->get();
                 return compact('accounts');
             }
         );
@@ -81,7 +81,7 @@ Route::middleware('auth')->prefix('api/')->group(
         Route::get(
             'subaccounts',
             function (Request $request) {
-                $subaccounts = Subaccount::all();
+                $subaccounts = Subaccount::with('mainaccount')->get();
                 return compact('subaccounts');
             }
         );
