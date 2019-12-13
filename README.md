@@ -1,5 +1,5 @@
 # Accounting-System
-![alt text](https://i.imgur.com/prI2Frz.png "GraphQL")
+![alt text](https://i.imgur.com/prI2Frz.png "")
 
 Php Accounting System.
 
@@ -13,12 +13,15 @@ Your Welcome to Contribute, I am willing to make this fully functional but befor
 
 - Clone the Repo
 - Make sure you have wamp or xamp or lamp
-- Put the project in the directory
-- Run `composer install && npm install` 
-- Create a database name account on your phpmyadmin
-- Update  database connection details in .env file
-- Run `php artisan migrate --seed` 
-- You can sign-on with username: me , password: password
+- run composer install
+- copy .env.example to .env (if not done already by composer)
+- inside .env update mysql connection parameters for DB_CONNECTION and DB_CORE_xxx sections (use a different database for the laravel part, - e.g. accountNew)
+- run php artisan migrate:fresh --seed (this will create the tables in accountNew and populate them)
+- run npm install
+- run npm run dev
+- run php artisan serve (this will serve the project, usually at http://127.0.0.1:8000)
+- visit the local site
+- sign-on with username : me and password: password
 
 
 
