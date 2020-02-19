@@ -44,14 +44,14 @@
                                 <tr>
                                     <td class="table-active">{{ $r->id  }}</td>
                                     <td class="table-secondary">{{ $r->Date   }}</td>
-                                    <td>{{ $r->chartaccount   }}</td>
-                                    <td>{{ $r->mainaccount   }}</td>
-                                    <td>{{ $r->subaccount1   }}</td>
-                                    <td>{{ $r->subaccount2   }}</td>
-                                    <td>{{ $r->subaccount3   }}</td>
-                                    <td>{{ $r->subaccount4   }}</td>
-                                    <td>{{ $r->subaccount5   }}</td>
-                                    <td>{{ $r->subaccount6   }}</td>
+                                    <td>{{ $r->chartaccountn   }}</td>
+                                    <td>{{ $r->name   }}</td>
+                                    <td>{{ $r->subaccount1n   }}</td>
+                                    <td>{{ $r->subaccount2n   }}</td>
+                                    <td>{{ $r->subaccount3n   }}</td>
+                                    <td>{{ $r->subaccount4n   }}</td>
+                                    <td>{{ $r->subaccount5n   }}</td>
+                                    <td>{{ $r->subaccount6n   }}</td>
                                     <td>{{ $r->by   }}</td>
                                     <td>{{ $r->Description   }}</td>
                                     <td class="table-active">{{ $r->Total   }}</td>
@@ -73,7 +73,7 @@
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.js"></script>
 <script type="text/javascript" charset="utf8"
     src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js">
@@ -85,12 +85,14 @@
     $(document).ready( function () {
         $('#tables').DataTable({
             dom: 'Bfrtip',
+            responsive: true,
             buttons: [
                 'copyHtml5',
                 'excelHtml5',
                 'csvHtml5',
                 'pdfHtml5'
-            ]
+            ],
+
         });
         $('[cloak]').removeAttr('cloak');
     } );

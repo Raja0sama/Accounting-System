@@ -23,7 +23,7 @@ class AdjustmentController extends Controller
         $adjustments=Adjustment::all();
         return view('adjustment.index', compact('adjustments'));
     }
-
+ 
     /**
      * Show the form for creating a new resource.
      *
@@ -54,12 +54,12 @@ class AdjustmentController extends Controller
             $subaccount1_id=$request->subvalue1;
             $amount1=$request->value1;
             $description=$request->description;
-            $chartaccount=Chartaccount::find($chart_id)->accountname;
-            $mainaccount=Account::find($account_id)->name;
-            $subaccount=Subaccount::find($subaccount_id)->accountname;
-            $chartaccount1=Chartaccount::find($chart1_id)->accountname;
-            $mainaccount1=Account::find($account1_id)->name;
-            $subaccount1=Subaccount::find($subaccount1_id)->accountname;
+            $chartaccount=$chart_id;
+            $mainaccount=$account_id;
+            $subaccount=$subaccount_id;
+            $chartaccount1=$chart1_id;
+            $mainaccount1=$account1_id;
+            $subaccount1=$subaccount1_id;
             $data=compact(
                 'date',
                 'chartaccount',
@@ -72,6 +72,7 @@ class AdjustmentController extends Controller
                 'amount1',
                 'description',
             );
+            // dd($data);
             $adjustment=Adjustment::create($data);
             $adjustment->transact();
             $message='Adjustment with id '. $adjustment->id . ' was created';

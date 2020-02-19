@@ -25,7 +25,7 @@
                                     <label class="col-md-4 control-label" for="selectbasic"
                                         class="form-control">Date</label>
                                     <input type="date" id="datevalue" name="datevalue" class="form-control"
-                                        value="2018-00-00 " min="2018-01-01" max="2018-12-31" />
+                                        value="2018-00-00 " />
                                 </div>
                             </div>
                         </div>

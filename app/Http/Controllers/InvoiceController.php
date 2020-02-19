@@ -21,7 +21,23 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $invoices=Invoice::all();
+        // $invoices=Invoice::all();
+        $invoices = DB::table('invoices')
+            ->leftJoin('subaccounts as name', 'invoices.Customer', '=', 'name.subid')
+            ->leftJoin('subaccounts', 'invoices.subaccount1', '=', 'subaccounts.subid')
+            ->leftJoin('subaccounts as w2', 'invoices.subaccount2', '=', 'w2.subid')
+            ->leftJoin('subaccounts as w3', 'invoices.subaccount3', '=', 'w3.subid')
+            ->leftJoin('subaccounts as w4', 'invoices.subaccount4', '=', 'w4.subid')
+            ->leftJoin('subaccounts as w5', 'invoices.subaccount5', '=', 'w5.subid')
+            ->leftJoin('subaccounts as w6', 'invoices.subaccount6', '=', 'w6.subid')
+            ->select('invoices.*', 'subaccounts.accountname as subaccount1n',
+            'name.accountname as Customern',
+            'w2.accountname as subaccount2n',
+            'w3.accountname as subaccount3n',
+            'w4.accountname as subaccount4n',
+            'w5.accountname as subaccount5n',
+            'w6.accountname as subaccount6n')
+            ->get();
         return view('invoice.index', compact('invoices'));
     }
 
@@ -51,21 +67,25 @@ class InvoiceController extends Controller
             $data = [
                 'Date' => $request->datevalue,
                 'Bill' => $bill->name,
-                'Customer'  => $customer->accountname,
+                'Customer'  => $customer->subid,
                 'description'  => $request->description,
             ];
-
+            
             $sum = 0 ;
             for ($i = 1; $i <= 6; $i++) {
                 $subaccount_id = $request["subvalue$i"];
                 $amount = $request["value$i"];
                 $subaccount = Subaccount::find($subaccount_id);
                 if ($subaccount) {
-                    $data["subaccount$i"] = $subaccount->accountname;
+                    $subaccount->transact(-$amount);  // This is opposite to PaymentController since this is a receipt
+                    
+                    $data["subaccount$i"] = $subaccount->subid;
                     $data["subaccountvalue$i"] = $amount;
                     $sum += $amount;
                 }
             }
+            $customer->transact($sum);  // This is opposite to PaymentController since this is a receipt
+            $bill->transact($sum);  // This is opposite to PaymentController since this is a receipt
             $data['Total'] = $sum;
 
             $invoice = Invoice::create($data);
@@ -84,9 +104,39 @@ class InvoiceController extends Controller
      * @param  \App\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function show(Invoice $invoice)
+    public function show($id)
     {
+        // $paymentz = Payment::find($id);
+        
+
+        $invoices = DB::table('invoices')
+        ->leftJoin('subaccounts as c', 'invoices.Customer', '=', 'c.subid')
+        ->leftJoin('subaccounts', 'invoices.subaccount1', '=', 'subaccounts.subid')
+        ->leftJoin('subaccounts as w2', 'invoices.subaccount2', '=', 'w2.subid')
+        ->leftJoin('subaccounts as w3', 'invoices.subaccount3', '=', 'w3.subid')
+        ->leftJoin('subaccounts as w4', 'invoices.subaccount4', '=', 'w4.subid')
+        ->leftJoin('subaccounts as w5', 'invoices.subaccount5', '=', 'w5.subid')
+        ->leftJoin('subaccounts as w6', 'invoices.subaccount6', '=', 'w6.subid')
+        ->select('invoices.*', 'subaccounts.accountname as subaccount1n',
+        'c.accountname as Customer1',
+        'w2.accountname as subaccount2n',
+        'w3.accountname as subaccount3n',
+        'w4.accountname as subaccount4n',
+        'w5.accountname as subaccount5n',
+        'w6.accountname as subaccount6n')
+        ->where('invoices.id','=', $id)
+        ->get();
+
+        $invoice =  $invoices[0];
+        // dd(json_encode($payment),json_encode($paymentz));
+        // dd($payment);
+
+        // dd($invoice);s
         return view('invoice.show', compact('invoice'));
+
+
+        // $invoice = Invoice::find($id);
+        // return view('invoice.show', compact('invoice'));
     }
 
     /**
@@ -114,14 +164,14 @@ class InvoiceController extends Controller
 
             // First Rollback current invoice transactions
             $invoice->rollback();
-
+            // dd( $request);
             // Now update invoice
             $bill=Account::find($request->bill);
             $customer=Subaccount::find($request->Customer);
             $data = [
                 'Date' => $request->datevalue,
                 'Bill' => $bill->name,
-                'Customer'  => $customer->accountname,
+                'Customer'  => $customer->subid,
                 'description'  => $request->description,
             ];
             
@@ -131,7 +181,7 @@ class InvoiceController extends Controller
                 $amount = $request["value$i"];
                 $subaccount = Subaccount::find($subaccount_id);
                 if ($subaccount) {
-                    $data["subaccount$i"] = $subaccount->accountname;
+                    $data["subaccount$i"] = $subaccount->subid;
                     $data["subaccountvalue$i"] = $amount;
                     $sum += $amount;
                 }
@@ -156,7 +206,7 @@ class InvoiceController extends Controller
     public function destroy(Invoice $invoice)
     {
         $message = '';
-
+        
         DB::transaction(function () use ($invoice, &$message) {
             // Reverse amounts
             $invoice->rollback();

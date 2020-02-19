@@ -46,7 +46,7 @@
                         <div class="col-lg-6">
                             <div class="info d-flex align-items-center">
                                 <div class="content">
-                                    <div class="logo" style='color:red'>
+                                    <div class="logo">
                                         <h1>Super Sami Accounting Management</h1>
                                     </div>
                                     <p>(Accounts Management System)</p>

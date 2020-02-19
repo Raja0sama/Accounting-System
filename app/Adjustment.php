@@ -11,8 +11,8 @@ class Adjustment extends Model
 
     public function transact()
     {
-        $subaccount=Subaccount::where('accountname', $this->subaccount)->first();
-        $subaccount1=Subaccount::where('accountname', $this->subaccount1)->first();
+        $subaccount=Subaccount::where('subid', $this->subaccount)->first();
+        $subaccount1=Subaccount::where('subid', $this->subaccount1)->first();
         $subaccount->transact($this->amount);
         $subaccount1->transact(- $this->amount1);
         return $this;

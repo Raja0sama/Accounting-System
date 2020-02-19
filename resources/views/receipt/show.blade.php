@@ -41,23 +41,23 @@
                     </div>
                     <div class="line"> </div>
                     <div class="form-group row">
-                        <div class="col-sm-12">
+                        <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-3">
                                     <label class="col-md-8 control-label" for="selectbasic">ChartAccount</label>
                                     <div class="show_product"></div>
                                     <input type="text" id="chartvalue" name="chartvalue" class="form-control"
-                                        value="{{ $receipt->chartaccount }}">
+                                        value="{{ $receipt->chartaccountn }}">
                                 </div>
                                 <div class="col-md-3">
                                     <label class="col-md-8 control-label" for="selectbasic">MainAccount</label>
                                     <input type="text" id="chartvalue" name="chartvalue" class="form-control"
-                                        value="{{ $receipt->mainaccount }}">
+                                        value="{{ $receipt->name }}">
                                 </div>
                                 <div class="col-md-3">
                                     <label class="col-md-8 control-label" for="selectbasic">SubAccount</label>
                                     <input type="text" id="chartvalue" name="chartvalue" class="form-control"
-                                        value="{{ $receipt->subaccount1 }}">
+                                        value="{{ $receipt->subaccount1n }}">
                                 </div>
                                 <div class="col-md-3">
                                     <label class="col-md-8 control-label" for="selectbasic">Amount</label>
@@ -67,24 +67,77 @@
                             </div>
                         </div>
                     </div>
-                    <?php for($i = 2; $i <= 6; $i++) { ?>
+
+
+
+        
+
+
                     <div class="form-group row">
-                        <div class="col-sm-12">
+                        <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-3"></div>
                                 <div class="col-md-3"></div>
                                 <div class="col-md-3">
-                                    <input type="text" id="subaccount{{$i}}" name="subaccount{{$i}}"
-                                        class="form-control" value="{{ $receipt['subaccount' . $i] }}">
+                                    <input type="text" id="subaccount2" name="subaccount2"
+                                        class="form-control" value="{{ $receipt->subaccount2n }}">
                                 </div>
                                 <div class="col-md-3">
-                                    <input class="col-md-8 form-control" id="subaccountvalue{{$i}}"
-                                        name="subaccountvalue{{$i}}" value="{{ $receipt['subaccountvalue' . $i] }}">
+                                    <input class="col-md-8 form-control" id="subaccountvalue2"
+                                        name="subaccountvalue2" value="{{ $receipt->subaccountvalue2}}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-3"></div>
+                                <div class="col-md-3">
+                                    <input type="text" id="subaccount3" name="subaccount3"
+                                        class="form-control" value="{{ $receipt->subaccount3n }}">
+                                </div>
+                                <div class="col-md-3">
+                                    <input class="col-md-8 form-control" id="subaccountvalue3"
+                                        name="subaccountvalue3" value="{{ $receipt->subaccountvalue3}}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-3"></div>
+                                <div class="col-md-3">
+                                    <input type="text" id="subaccount4" name="subaccount4"
+                                        class="form-control" value="{{ $receipt->subaccount4n }}">
+                                </div>
+                                <div class="col-md-3">
+                                    <input class="col-md-8 form-control" id="subaccountvalue4"
+                                        name="subaccountvalue4" value="{{ $receipt->subaccountvalue4}}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-3"></div>
+                                <div class="col-md-3">
+                                    <input type="text" id="subaccount5" name="subaccount5"
+                                        class="form-control" value="{{ $receipt->subaccount5n }}">
+                                </div>
+                                <div class="col-md-3">
+                                    <input class="col-md-8 form-control" id="subaccountvalue5"
+                                        name="subaccountvalue5" value="{{ $receipt->subaccountvalue5}}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-3"></div>
+                                <div class="col-md-3">
+                                    <input type="text" id="subaccount6" name="subaccount6"
+                                        class="form-control" value="{{ $receipt->subaccount6n }}">
+                                </div>
+                                <div class="col-md-3">
+                                    <input class="col-md-8 form-control" id="subaccountvalue6"
+                                        name="subaccountvalue6" value="{{ $receipt->subaccountvalue6}}">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <?php } ?>
+
                     <div class="form-group row">
                         <div class="col-sm-12">
                             <div class="row">
@@ -124,7 +177,7 @@
     </div>
 </div>
 <button type="button" class="btn btn-primary" style="height:41px ; width:101px ;margin-left: -16px; margin-top: 33px;"
-    onclick="printJS ({ printable: 'printJS-form', type: 'html' , header: 'receipt Voucher' })">Print Form</button>
+    onclick="printData()">Print Form</button>
 @endsection
 
 @section('footer')
@@ -138,5 +191,18 @@
         $('form#showform input', ).prop('readonly',true);
         $('form#showform textarea', ).prop('readonly',true);
     });
+    function printData(){
+   var divToPrint=document.getElementById("printJS-form");
+   newWin= window.open("", "", "width=800,height=800");;
+   newWin.document.write('<head><link type="text/css" rel="stylesheet" href="/core/vendor/bootstrap/css/bootstrap.min.css" media="all"> <link rel="stylesheet"  media="print" href="/core/css/printcss.css" ><!-- Font Awesome CSS--> <link type="text/css" rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css" media="all"> <!-- Custom Font Icons CSS--> <link type="text/css" rel="stylesheet" href="css/font.css" media="all"> <!-- Google fonts - Muli--> <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,700" media="all"> <!-- theme stylesheet--> <link type="text/css" rel="stylesheet" href="css/style.default.css" id="theme-stylesheet" media="all"> <!-- Custom stylesheet - for your changes--> <link type="text/css" rel="stylesheet" href="css/custom.css" media="all"> <!-- Favicon--> <link type="text/css" rel="shortcut icon" href="img/favicon1.png" media="all"></head><div class="jumbotron"> <h3>Invoice Voucher<h3></div><div class="container">');
+   newWin.document.write(divToPrint.outerHTML);
+      newWin.document.write('</div>');
+
+  setTimeout(function () {
+   newWin.print();
+     newWin.close();
+  }, 500);
+ 
+}
 </script>
 @endsection

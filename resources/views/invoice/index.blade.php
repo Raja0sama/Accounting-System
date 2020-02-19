@@ -16,7 +16,6 @@
     <div class="block">
         <div class="title"><strong>Invoices</strong></div>
         <div class="block-body">
-            <form name="form" id="form1" action="" method="post">
                 <br>
                 <div id="txtshow">
                     <div class="table-responsive">
@@ -45,23 +44,23 @@
                                     <td>
                                         <a href="{{ route('invoices.edit', $inv->id)}}">Edit</a> |
                                         <a href="#" onclick="$('form#invoice_delete_{{$inv->id}}').trigger('submit')">Delete</a>
-                                        <nothing style='display=none'>
+                                        <div style='display=none'>
                                             <form id='invoice_delete_{{$inv->id}}' method='POST' action="{{ route('invoices.destroy', $inv->id)}}" >
                                                 @method('DELETE')
                                                 @csrf
                                             </form>
-                                        </nothing>
+                                        </div>
                                     </td>
                                     <td class="table-active">{{ $inv->id  }}</td>
                                     <td class="table-secondary">{{ $inv->Date   }}</td>
                                     <td>{{ $inv->Bill   }}</td>
-                                    <td>{{ $inv->Customer   }}</td>
-                                    <td>{{ $inv->subaccount1   }}</td>
-                                    <td>{{ $inv->subaccount2   }}</td>
-                                    <td>{{ $inv->subaccount3   }}</td>
-                                    <td>{{ $inv->subaccount4   }}</td>
-                                    <td>{{ $inv->subaccount5   }}</td>
-                                    <td>{{ $inv->subaccount6   }}</td>
+                                    <td>{{ $inv->Customern   }}</td>
+                                    <td>{{ $inv->subaccount1n   }}</td>
+                                    <td>{{ $inv->subaccount2n   }}</td>
+                                    <td>{{ $inv->subaccount3n   }}</td>
+                                    <td>{{ $inv->subaccount4n   }}</td>
+                                    <td>{{ $inv->subaccount5n   }}</td>
+                                    <td>{{ $inv->subaccount6n   }}</td>
                                     <td class="table-active" style='text-align:right'>{{ $inv->Total   }}</td>
                                 </tr>
                                 @endforeach
@@ -69,7 +68,6 @@
                         </table>
                     </div>
                 </div>
-            </form>
         </div>
     </div>
 </div>

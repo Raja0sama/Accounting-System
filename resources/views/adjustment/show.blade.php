@@ -50,18 +50,18 @@
                                     <label class="col-md-12 control-label" for="selectbasic">Chart Of Account</label>
                                     <div class="show_product"></div>
                                     <input id="chartvalue" name="chartvalue" class="form-control"
-                                        value="{{ $adjustment->chartaccount }}" />
+                                        value="{{ \App\Chartaccount::find($adjustment->chartaccount)->accountname }}" />
 
                                 </div>
                                 <div class="col-md-3">
                                     <label class="col-md-8 control-label" for="selectbasic">Main Account</label>
                                     <input id="mainvalue" name="mainvalue" class="form-control"
-                                        value="{{ $adjustment->mainaccount }}" />
+                                        value="{{ \App\Account::find($adjustment->mainaccount)->name }}" />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="col-md-8 control-label" for="selectbasic">Sub Account</label>
                                     <input id="subvalue" name="subvalue" class="form-control"
-                                        value="{{$adjustment->subaccount}}" />
+                                        value="{{\App\Subaccount::find($adjustment->subaccount)->accountname}}" />
 
                                 </div>
                                 <div class="col-md-3">
@@ -96,17 +96,18 @@
                                     <label class="col-md-12 control-label" for="selectbasic">Chart Of Account</label>
                                     <div class="show_product"></div>
                                     <input id="chartvalue1" name="chartvalue1" class="form-control"
-                                        value="{{$adjustment->chartaccount1}}" />
+                                        value="{{\App\Chartaccount::find($adjustment->chartaccount1)->accountname}}" />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="col-md-8 control-label" for="selectbasic">Main Account</label>
-                                    <input id="mainvalue1" name="mainvalue1" class="form-control"
-                                        value="{{ $adjustment->mainaccount1 }}" />
+                                    <input id="mainvalue" name="mainvalue" class="form-control"
+                                        value="{{ \App\Account::find($adjustment->mainaccount1)->name }}" />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="col-md-8 control-label" for="selectbasic">Sub Account</label>
-                                    <input id="subvalue1" name="subvalue1" class="form-control"
-                                        value="{{ $adjustment->subaccount1 }}" />
+                                    <input id="subvalue" name="subvalue" class="form-control"
+                                        value="{{\App\Subaccount::find($adjustment->subaccount1)->accountname}}" />
+
                                 </div>
                                 <div class="col-md-3">
                                     <label class="col-md-8 control-label" for="selectbasic">Credit</label>

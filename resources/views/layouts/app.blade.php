@@ -12,6 +12,7 @@
 
 
         <meta charset="utf-8">
+        
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -29,9 +30,25 @@
         <!-- Custom stylesheet - for your changes-->
         <link rel="stylesheet" href="/core/css/custom.css">
         <!-- Favicon-->
-        <link rel="shortcut icon" href="/core/img/favicon1.png">
+        <link rel="shortcut icon" href="//core/favicon/apple-icon-57x57.png">
         <link rel="stylesheet" href="/css/jquery-ui.min.js">
-
+        <link rel="apple-touch-icon" sizes="57x57" href="/core/favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/core/favicon/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/core/favicon/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/core/favicon/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/core/favicon/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/core/favicon/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/core/favicon/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/core/favicon/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/core/favicon/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/core/favicon/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/core/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/core/favicon/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/core/favicon/favicon-16x16.png">
+<link rel="manifest" href="/core/favicon/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/core/favicon/ms-icon-144x144.png">
+<meta name="theme-color" content="#000000">
 
         <!-- Tweaks for older IEs-->
         <!--[if lt IE 9]>
@@ -58,7 +75,9 @@
                 <div class="loader__ball"></div>
             </div>
 
-            <header class="header">
+            <header style="position: fixed;
+    width: 100%;
+    z-index: 100;" class="header">
                 <nav class="navbar navbar-expand-lg">
                     <div class="search-panel">
                         <div class="search-inner d-flex align-items-center justify-content-center">
@@ -77,7 +96,7 @@
                                 <div class="brand-text brand-big visible text-uppercase"><strong
                                         class="text-primary">Dash</strong><strong>Board</strong></div>
                                 <div class="brand-text brand-sm"><strong
-                                        class="text-primary">DF</strong><strong>M</strong></div>
+                                        class="text-primary">S</strong><strong>S</strong></div>
                             </a>
                             <!-- Sidebar Toggle Btn-->
                             <button class="sidebar-toggle"><i class="fa fa-long-arrow-left"></i></button>
@@ -99,7 +118,7 @@
                 </nav>
             </header>
 
-            <div class="d-flex align-items-stretch">
+            <div style="padding-top:81px" class="d-flex align-items-stretch">
 
                 <!-- Sidebar Navigation-->
                 <nav id="sidebar">
@@ -124,9 +143,6 @@
                         <li {{ activeIfRoute('adjustments.create') }}><a href="{{ route('adjustments.create') }}"> <i
                                     class="icon-padnote"></i>Adjustment
                             </a></li>
-                        <li {{ activeIfRoute('general_ledger') }}><a href="{{ route('general_ledger') }}"> <i
-                                    class="fa fa-bar-chart"></i>General
-                                Ledger</a></li>
                         <li {{ activeIfRoute(['chartaccounts.create','accounts.create','subaccounts.create'] )}}>
                             <a href="ul#Accounts" aria-expanded="false" data-toggle="collapse"> <i
                                     class="icon-windows"></i>Create Account</a>

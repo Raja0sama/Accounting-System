@@ -19,8 +19,29 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        $payments=Payment::all();
-        return view('payment.index', compact('payments'));
+        // $payments=Payment::all();
+        // return view('payment.index', compact('payments'));
+
+                // $invoices=Invoice::all();
+                $payments = DB::table('payments')
+                ->leftJoin('chartaccounts', 'payments.chartaccount', '=', 'chartaccounts.id')
+                ->leftJoin('accounts as name', 'payments.mainaccount', '=', 'name.id')
+                ->leftJoin('subaccounts', 'payments.subaccount1', '=', 'subaccounts.subid')
+                ->leftJoin('subaccounts as w2', 'payments.subaccount2', '=', 'w2.subid')
+                ->leftJoin('subaccounts as w3', 'payments.subaccount3', '=', 'w3.subid')
+                ->leftJoin('subaccounts as w4', 'payments.subaccount4', '=', 'w4.subid')
+                ->leftJoin('subaccounts as w5', 'payments.subaccount5', '=', 'w5.subid')
+                ->leftJoin('subaccounts as w6', 'payments.subaccount6', '=', 'w6.subid')
+                ->select('payments.*', 'subaccounts.accountname as subaccount1n',
+                'name.name as name',
+                'chartaccounts.accountname as chartaccountn',
+                'w2.accountname as subaccount2n',
+                'w3.accountname as subaccount3n',
+                'w4.accountname as subaccount4n',
+                'w5.accountname as subaccount5n',
+                'w6.accountname as subaccount6n')
+                ->get();
+            return view('payment.index', compact('payments'));
     }
 
     /**
@@ -76,13 +97,14 @@ class PaymentController extends Controller
             $sum += $request->value6;
             $chart = Chartaccount::find($request->chartvalue);
             $account = Account::find($request->mainvalue);
-            $by = Account::find($request->byvalue);
+            $by = Subaccount::find($request->byvalue);
+            // dd($request->byvalue);
             $data = [
                 'Date' => $request->datevalue,
-                'chartaccount' => $chart->accountname,
-                'mainaccount'  => $account->name,
+                'chartaccount' => $chart->id,
+                'mainaccount'  => $account->id,
                 'description'  => $request->description,
-                'by' => $by->name,
+                'by' => $by->accountname,
                 'Total' => $sum,
             ];
             for ($i = 1; $i <= 6; $i++) {
@@ -90,12 +112,25 @@ class PaymentController extends Controller
                 $amount = $request["value$i"];
                 $subaccount = Subaccount::find($subaccount_id);
                 if ($subaccount) {
-                    $subaccount->transact($amount);
-                    $data["subaccount$i"] = $subaccount->accountname;
+                    if($chart->id == 1 || $chart->id == 4){
+                        $subaccount->transact($amount);
+                    }
+                    if($chart->id == 2 || $chart->id == 3 || $chart->id == 5){
+                        $subaccount->transact(-$amount);
+                    }
+                    $data["subaccount$i"] = $subaccount->subid;
                     $data["subaccountvalue$i"] = $amount;
                 }
             }
-            $by->transact(-$sum, false);
+            
+
+            if($chart->id == 1 || $chart->id == 4){
+                $by->transact(-$sum, false);
+            }
+            if($chart->id == 2 || $chart->id == 3 || $chart->id == 5){
+                $by->transact($sum, false);
+            }
+            
             $payment = Payment::create($data);
             $message = "Payment created with id " . $payment->id;
         });
@@ -109,8 +144,33 @@ class PaymentController extends Controller
      * @param  \App\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function show(Payment $payment)
+    public function show($id)
     {
+        $paymentz = Payment::find($id);
+        
+        $payments = DB::table('payments')
+        ->leftJoin('chartaccounts', 'payments.chartaccount', '=', 'chartaccounts.id')
+        ->leftJoin('accounts as name', 'payments.mainaccount', '=', 'name.id')
+        ->leftJoin('subaccounts', 'payments.subaccount1', '=', 'subaccounts.subid')
+        ->leftJoin('subaccounts as w2', 'payments.subaccount2', '=', 'w2.subid')
+        ->leftJoin('subaccounts as w3', 'payments.subaccount3', '=', 'w3.subid')
+        ->leftJoin('subaccounts as w4', 'payments.subaccount4', '=', 'w4.subid')
+        ->leftJoin('subaccounts as w5', 'payments.subaccount5', '=', 'w5.subid')
+        ->leftJoin('subaccounts as w6', 'payments.subaccount6', '=', 'w6.subid')
+        ->select('payments.*', 'subaccounts.accountname as subaccount1n',
+        'name.name as name',
+        'chartaccounts.accountname as chartaccountn',
+        'w2.accountname as subaccount2n',
+        'w3.accountname as subaccount3n',
+        'w4.accountname as subaccount4n',
+        'w5.accountname as subaccount5n',
+        'w6.accountname as subaccount6n')
+        ->where('payments.id','=', $id)
+        ->get();
+
+        $payment =  $payments[0];
+        // dd(json_encode($payment),json_encode($paymentz));
+        // dd($payment);
         return view('payment.show', compact('payment'));
     }
 

@@ -44,6 +44,9 @@ Route::group(
 
         Route::resource('invoices', 'InvoiceController');
 
+        Route::resource('ledger', 'Ledger');
+
+
         foreach (['account', 'chartaccount', 'subaccount'] as $resource) {
             $prefix=Str::plural($resource);
             $controller = ucfirst($resource) . 'Controller';
@@ -99,6 +102,7 @@ Route::middleware('auth')->prefix('api/')->group(
             'subaccountsOfAccount',
             function (Request $request) {
                 $account_id = request('account_id');
+                Log::debug($account_id);
                 $account=Account::find($account_id);
                 if ($account) {
                     $subaccounts = $account->subaccounts;
