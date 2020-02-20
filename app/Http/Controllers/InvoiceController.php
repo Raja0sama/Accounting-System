@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Account;
 use App\Invoice;
 use App\Payment;
+use App\Sa;
 use App\Subaccount;
 use App\Chartaccount;
 use Illuminate\Http\Request;
@@ -21,23 +22,9 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        // $invoices=Invoice::all();
-        $invoices = DB::table('invoices')
-            ->leftJoin('subaccounts as name', 'invoices.Customer', '=', 'name.subid')
-            ->leftJoin('subaccounts', 'invoices.subaccount1', '=', 'subaccounts.subid')
-            ->leftJoin('subaccounts as w2', 'invoices.subaccount2', '=', 'w2.subid')
-            ->leftJoin('subaccounts as w3', 'invoices.subaccount3', '=', 'w3.subid')
-            ->leftJoin('subaccounts as w4', 'invoices.subaccount4', '=', 'w4.subid')
-            ->leftJoin('subaccounts as w5', 'invoices.subaccount5', '=', 'w5.subid')
-            ->leftJoin('subaccounts as w6', 'invoices.subaccount6', '=', 'w6.subid')
-            ->select('invoices.*', 'subaccounts.accountname as subaccount1n',
-            'name.accountname as Customern',
-            'w2.accountname as subaccount2n',
-            'w3.accountname as subaccount3n',
-            'w4.accountname as subaccount4n',
-            'w5.accountname as subaccount5n',
-            'w6.accountname as subaccount6n')
-            ->get();
+        $invoices=Invoice::all();
+        // $invoices = Invoice::all
+           
         return view('invoice.index', compact('invoices'));
     }
 
@@ -48,6 +35,17 @@ class InvoiceController extends Controller
      */
     public function create()
     {
+        // dd(\App\Account::where('name','=','Income')->take(1)->first()->subaccounts()->get());
+        return view('invoice.create');
+    }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function supplier_create()
+    {
+        // dd(\App\Account::where('name','=','Income')->take(1)->first()->subaccounts()->get());
         return view('invoice.create');
     }
 
@@ -77,15 +75,13 @@ class InvoiceController extends Controller
                 $amount = $request["value$i"];
                 $subaccount = Subaccount::find($subaccount_id);
                 if ($subaccount) {
-                    $subaccount->transact(-$amount);  // This is opposite to PaymentController since this is a receipt
                     
-                    $data["subaccount$i"] = $subaccount->subid;
-                    $data["subaccountvalue$i"] = $amount;
                     $sum += $amount;
                 }
             }
+
             $customer->transact($sum);  // This is opposite to PaymentController since this is a receipt
-            $bill->transact($sum);  // This is opposite to PaymentController since this is a receipt
+            // $bill->transact($sum);  // This is opposite to PaymentController since this is a receipt
             $data['Total'] = $sum;
 
             $invoice = Invoice::create($data);
@@ -93,6 +89,26 @@ class InvoiceController extends Controller
             // This differs from CORE PHP implementation because it also updates corresponding ChartAccount !!!
             $invoice->transact();
 
+            for ($i = 1; $i <= 6; $i++) {
+                $subaccount_id = $request["subvalue$i"];
+                $amount = $request["value$i"];
+                $subaccount = Subaccount::find($subaccount_id);
+                if ($subaccount) {
+                    $subaccount->transact(-$amount);  // This is opposite to PaymentController since this is a receipt
+
+                    $id = $subaccount->subid;
+                    $ammount = $amount;
+                    $parentid = $invoice->id;
+                
+                   Sa::create([
+                        'nameid' =>  $id,
+                        'amount' => $ammount,
+                        'parentid' => $parentid,
+                        'from'=> 3
+                    ]);
+
+                }
+            }
             $message = "Invoice created with id " . $invoice->id;
         });
         return redirect()->route('invoices.create')->with(compact('message'));
@@ -147,6 +163,7 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
+        
         return view('invoice.edit', compact('invoice'));
     }
 
@@ -159,15 +176,17 @@ class InvoiceController extends Controller
      */
     public function update(InvoiceRequest $request, Invoice $invoice)
     {
+        
         $message = '';
         DB::transaction(function () use ($request, $invoice, &$message) {
-
+            // dd($request);
             // First Rollback current invoice transactions
             $invoice->rollback();
             // dd( $request);
             // Now update invoice
             $bill=Account::find($request->bill);
             $customer=Subaccount::find($request->Customer);
+
             $data = [
                 'Date' => $request->datevalue,
                 'Bill' => $bill->name,
@@ -176,21 +195,44 @@ class InvoiceController extends Controller
             ];
             
             $sum=0;
-            for ($i = 1; $i <= 6; $i++) {
+            for ($i = 0; $i <= 6; $i++) {
                 $subaccount_id = $request["subvalue$i"];
                 $amount = $request["value$i"];
                 $subaccount = Subaccount::find($subaccount_id);
                 if ($subaccount) {
-                    $data["subaccount$i"] = $subaccount->subid;
-                    $data["subaccountvalue$i"] = $amount;
+                    $parentid = $invoice->id;
+
+                    // dd($amount);
+                    $subaccount->transact(Sa::where('parentid',$parentid)->sum('amount'));  // This is opposite to PaymentController since this is a receipt
+                    $subaccount->transact(-$amount);  // This is opposite to PaymentController since this is a receipt
+
+                    // $data["subaccount$i"] = $subaccount->subid;
+                    // $data["subaccountvalue$i"] = $amount;
                     $sum += $amount;
+                    $id = $subaccount->subid;
+                    $ammount = $amount;
+                    $parentid = $invoice->id;
+                    Sa::where('parentid',$parentid)->delete();
+                    Sa::create([
+                        'nameid' =>  $id,
+                        'amount' => $ammount,
+                        'parentid' => $parentid,
+                        'from'=> 3
+                    ]);
+                    
                 }
             }
+
+            $customer->transact(-$invoice->Total);
+            $customer->transact(+$sum);
+
+       
+
             $data['Total'] = $sum;
             $invoice->update($data);
-
+            
             // and apply new values
-            $invoice->transact();
+            // $invoice->transact();
 
             $message="Invoice with id " . $invoice->id . " was updated";
         });
@@ -211,6 +253,14 @@ class InvoiceController extends Controller
             // Reverse amounts
             $invoice->rollback();
             $id=$invoice->id;
+            $sub = Sa::where([['parentid','=',$id],['from','=',3]])->sum('amount');
+            $subs = Sa::where([['parentid','=',$id],['from','=',3]])->delete();
+            $customer=Subaccount::find($invoice->Customer);
+            $customer->transact(-$sub);
+            $subb=Subaccount::find(2);
+            $subb->transact($sub);  // This is opposite to PaymentController since this is a receipt
+
+
             $invoice->delete();
             $message="Invoice with id $id was deleted";
         });

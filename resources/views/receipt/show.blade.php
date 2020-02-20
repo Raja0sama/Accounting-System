@@ -56,13 +56,11 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label class="col-md-8 control-label" for="selectbasic">SubAccount</label>
-                                    <input type="text" id="chartvalue" name="chartvalue" class="form-control"
-                                        value="{{ $receipt->subaccount1n }}">
+                                  
                                 </div>
                                 <div class="col-md-3">
                                     <label class="col-md-8 control-label" for="selectbasic">Amount</label>
-                                    <input class="col-md-8 form-control" id="value1" name="value1"
-                                        value="{{ $receipt->subaccountvalue1 }}">
+                                   
                                 </div>
                             </div>
                         </div>
@@ -72,71 +70,26 @@
 
         
 
-
                     <div class="form-group row">
                         <div class="col-md-12">
+
+                        @foreach (\App\Sa::where([['parentid','=', $receipt->id],['from','=',2]])->get() as $item)
                             <div class="row">
                                 <div class="col-md-3"></div>
                                 <div class="col-md-3"></div>
                                 <div class="col-md-3">
                                     <input type="text" id="subaccount2" name="subaccount2"
-                                        class="form-control" value="{{ $receipt->subaccount2n }}">
+                                        class="form-control" value="{{ \App\Subaccount::find($item->nameId)->accountname }}">
                                 </div>
                                 <div class="col-md-3">
                                     <input class="col-md-8 form-control" id="subaccountvalue2"
-                                        name="subaccountvalue2" value="{{ $receipt->subaccountvalue2}}">
+                                        name="subaccountvalue2" value="{{  $item->amount }}">
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-3"></div>
-                                <div class="col-md-3"></div>
-                                <div class="col-md-3">
-                                    <input type="text" id="subaccount3" name="subaccount3"
-                                        class="form-control" value="{{ $receipt->subaccount3n }}">
-                                </div>
-                                <div class="col-md-3">
-                                    <input class="col-md-8 form-control" id="subaccountvalue3"
-                                        name="subaccountvalue3" value="{{ $receipt->subaccountvalue3}}">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3"></div>
-                                <div class="col-md-3"></div>
-                                <div class="col-md-3">
-                                    <input type="text" id="subaccount4" name="subaccount4"
-                                        class="form-control" value="{{ $receipt->subaccount4n }}">
-                                </div>
-                                <div class="col-md-3">
-                                    <input class="col-md-8 form-control" id="subaccountvalue4"
-                                        name="subaccountvalue4" value="{{ $receipt->subaccountvalue4}}">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3"></div>
-                                <div class="col-md-3"></div>
-                                <div class="col-md-3">
-                                    <input type="text" id="subaccount5" name="subaccount5"
-                                        class="form-control" value="{{ $receipt->subaccount5n }}">
-                                </div>
-                                <div class="col-md-3">
-                                    <input class="col-md-8 form-control" id="subaccountvalue5"
-                                        name="subaccountvalue5" value="{{ $receipt->subaccountvalue5}}">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3"></div>
-                                <div class="col-md-3"></div>
-                                <div class="col-md-3">
-                                    <input type="text" id="subaccount6" name="subaccount6"
-                                        class="form-control" value="{{ $receipt->subaccount6n }}">
-                                </div>
-                                <div class="col-md-3">
-                                    <input class="col-md-8 form-control" id="subaccountvalue6"
-                                        name="subaccountvalue6" value="{{ $receipt->subaccountvalue6}}">
-                                </div>
-                            </div>
+                           @endforeach
                         </div>
                     </div>
+                    
 
                     <div class="form-group row">
                         <div class="col-sm-12">

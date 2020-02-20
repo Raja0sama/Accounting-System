@@ -16,13 +16,13 @@ class ChartaccountSeeder extends Seeder
         $chartAccounts = [
             [
                 'accountname' => 'Assets',
-                'amount' => -252000.0,
+                'amount' => 0,
                 'chartid' => '1',
                 'type' => 'D'
             ],
             [
                 'accountname' => 'Liabilities',
-                'amount' => -100.0,
+                'amount' => 0,
                 'chartid' => '2',
                 'type' => 'C'
             ],

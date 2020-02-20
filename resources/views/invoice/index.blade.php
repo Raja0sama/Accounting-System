@@ -28,12 +28,7 @@
                                     <th>Date</th>
                                     <th>Bill</th>
                                     <th>Customer</th>
-                                    <th>SubAccount1</th>
-                                    <th>SubAccount2</th>
-                                    <th>SubAccount3</th>
-                                    <th>SubAccount4</th>
-                                    <th>SubAccount5</th>
-                                    <th>SubAccount6</th>
+                     
                                     <th>Total</th>
                                 </tr>
                             </thead>
@@ -55,12 +50,7 @@
                                     <td class="table-secondary">{{ $inv->Date   }}</td>
                                     <td>{{ $inv->Bill   }}</td>
                                     <td>{{ $inv->Customern   }}</td>
-                                    <td>{{ $inv->subaccount1n   }}</td>
-                                    <td>{{ $inv->subaccount2n   }}</td>
-                                    <td>{{ $inv->subaccount3n   }}</td>
-                                    <td>{{ $inv->subaccount4n   }}</td>
-                                    <td>{{ $inv->subaccount5n   }}</td>
-                                    <td>{{ $inv->subaccount6n   }}</td>
+                           
                                     <td class="table-active" style='text-align:right'>{{ $inv->Total   }}</td>
                                 </tr>
                                 @endforeach

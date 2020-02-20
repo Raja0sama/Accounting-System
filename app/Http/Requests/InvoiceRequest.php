@@ -11,7 +11,7 @@ class InvoiceRequest extends TransactionRequest
         $rules=parent::rules();
         unset($rules['chartvalue']);
         unset($rules['mainvalue']);
-        $rules = array_insert_array($rules, 'subvalue1', ['Customer'=>'required']);
+        // $rules = array_insert_array($rules, 'subvalue1', ['Customer'=>'required']);
         return $rules;
     }
 

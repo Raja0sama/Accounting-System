@@ -52,22 +52,20 @@
                                     <label class="col-md-8 control-label" for="selectbasic">ChartAccount</label>
                                     <div class="show_product"></div>
                                     <input type="text" id="chartvalue" name="chartvalue" class="form-control"
-                                        value="{{ $payment->chartaccountn }}">
+                                        value="{{ \App\Chartaccount::find($payment->chartaccount)->accountname }}">
                                 </div>
                                 <div class="col-md-3">
                                     <label class="col-md-8 control-label" for="selectbasic">MainAccount</label>
                                     <input type="text" id="chartvalue" name="chartvalue" class="form-control"
-                                        value="{{ $payment->name }}">
+                                        value="{{ \App\Chartaccount::find($payment->mainaccount)->accountname }}">
                                 </div>
                                 <div class="col-md-3">
                                     <label class="col-md-8 control-label" for="selectbasic">SubAccount</label>
-                                    <input type="text" id="chartvalue" name="chartvalue" class="form-control"
-                                        value="{{ $payment->subaccount1n }}">
+                                
                                 </div>
                                 <div class="col-md-3">
                                     <label class="col-md-8 control-label" for="selectbasic">Amount</label>
-                                    <input class="col-md-8 form-control" id="value1" name="value1"
-                                        value="{{ $payment->subaccountvalue1 }}">
+                                   
                                 </div>
                             </div>
                         </div>
@@ -80,66 +78,21 @@
 
                     <div class="form-group row">
                         <div class="col-md-12">
+
+                        @foreach (\App\Sa::where([['parentid','=', $payment->id],['from','=',1]])->get() as $item)
                             <div class="row">
                                 <div class="col-md-3"></div>
                                 <div class="col-md-3"></div>
                                 <div class="col-md-3">
                                     <input type="text" id="subaccount2" name="subaccount2"
-                                        class="form-control" value="{{ $payment->subaccount2n }}">
+                                        class="form-control" value="{{ \App\Subaccount::find($item->nameId)->accountname }}">
                                 </div>
                                 <div class="col-md-3">
                                     <input class="col-md-8 form-control" id="subaccountvalue2"
-                                        name="subaccountvalue2" value="{{ $payment->subaccountvalue2}}">
+                                        name="subaccountvalue2" value="{{  $item->amount }}">
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-3"></div>
-                                <div class="col-md-3"></div>
-                                <div class="col-md-3">
-                                    <input type="text" id="subaccount3" name="subaccount3"
-                                        class="form-control" value="{{ $payment->subaccount3n }}">
-                                </div>
-                                <div class="col-md-3">
-                                    <input class="col-md-8 form-control" id="subaccountvalue3"
-                                        name="subaccountvalue3" value="{{ $payment->subaccountvalue3}}">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3"></div>
-                                <div class="col-md-3"></div>
-                                <div class="col-md-3">
-                                    <input type="text" id="subaccount4" name="subaccount4"
-                                        class="form-control" value="{{ $payment->subaccount4n }}">
-                                </div>
-                                <div class="col-md-3">
-                                    <input class="col-md-8 form-control" id="subaccountvalue4"
-                                        name="subaccountvalue4" value="{{ $payment->subaccountvalue4}}">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3"></div>
-                                <div class="col-md-3"></div>
-                                <div class="col-md-3">
-                                    <input type="text" id="subaccount5" name="subaccount5"
-                                        class="form-control" value="{{ $payment->subaccount5n }}">
-                                </div>
-                                <div class="col-md-3">
-                                    <input class="col-md-8 form-control" id="subaccountvalue5"
-                                        name="subaccountvalue5" value="{{ $payment->subaccountvalue5}}">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3"></div>
-                                <div class="col-md-3"></div>
-                                <div class="col-md-3">
-                                    <input type="text" id="subaccount6" name="subaccount6"
-                                        class="form-control" value="{{ $payment->subaccount6n }}">
-                                </div>
-                                <div class="col-md-3">
-                                    <input class="col-md-8 form-control" id="subaccountvalue6"
-                                        name="subaccountvalue6" value="{{ $payment->subaccountvalue6}}">
-                                </div>
-                            </div>
+                           @endforeach
                         </div>
                     </div>
                     

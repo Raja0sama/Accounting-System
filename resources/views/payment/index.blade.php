@@ -27,12 +27,6 @@
                                     <th>Date</th>
                                     <th>Chart Account</th>
                                     <th>Main Account</th>
-                                    <th>SubAccount</th>
-                                    <th>SubAccount</th>
-                                    <th>SubAccount</th>
-                                    <th>SubAccount</th>
-                                    <th>SubAccount</th>
-                                    <th>SubAccount</th>
                                     <th>Through</th>
                                     <th>Description</th>
                                     <th>Total</th>
@@ -44,14 +38,8 @@
                                 <tr>
                                     <td class="table-active">{{ $p->id  }}</td>
                                     <td class="table-secondary">{{ $p->Date   }}</td>
-                                    <td>{{ $p->chartaccountn   }}</td>
-                                    <td>{{ $p->name   }}</td>
-                                    <td>{{ $p->subaccount1n   }}</td>
-                                    <td>{{ $p->subaccount2n   }}</td>
-                                    <td>{{ $p->subaccount3n   }}</td>
-                                    <td>{{ $p->subaccount4n   }}</td>
-                                    <td>{{ $p->subaccount5n   }}</td>
-                                    <td>{{ $p->subaccount6n   }}</td>
+                                    <td>{{ \App\Chartaccount::find($p->chartaccount)->accountname   }}</td>
+                                    <td>{{ \App\Account::find($p->mainaccount)->name   }}</td>
                                     <td>{{ $p->by   }}</td>
                                     <td>{{ $p->Description   }}</td>
                                     <td class="table-active">{{ $p->Total   }}</td>

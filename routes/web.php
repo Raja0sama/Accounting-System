@@ -43,8 +43,10 @@ Route::group(
         }
 
         Route::resource('invoices', 'InvoiceController');
-
+    
         Route::resource('ledger', 'Ledger');
+        Route::get('/invoice/supplier_create', 'InvoiceController@supplier_create')->name('SupplierI');
+
 
 
         foreach (['account', 'chartaccount', 'subaccount'] as $resource) {

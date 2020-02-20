@@ -39,7 +39,7 @@
                                 <div class="col-md-5">
                                     <label class="col-md-4 control-label" for="selectbasic">Bill</label>
                                     <select id="bill" name="bill" class="form-control">
-                                        @foreach (\App\Account::where('name','=', 'Customer Account')->take(1)->get()
+                                        @foreach (\App\Account::where('name','=', 'A/c Receivable')->take(1)->get()
                                         as $account)
                                         <option value="{{ $account->id }}">{{ $account->name }}
                                         </option>
@@ -52,7 +52,7 @@
                                     <select id="Customer" name="Customer" class="form-control">
                                         <option value>Select Customer</option>
                                         @foreach (\App\Account::where('name','=',
-                                        'Customer Account')->take(1)->first()->subaccounts()->get()
+                                        'A/c Receivable')->take(1)->first()->subaccounts()->get()
                                         as $subaccount)
                                         <option value="{{ $subaccount->subid }}">{{ $subaccount->accountname }}
                                         </option>

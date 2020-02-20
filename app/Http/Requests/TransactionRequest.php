@@ -29,17 +29,17 @@ class TransactionRequest extends FormRequest
             'chartvalue' => 'required|exists:chartaccounts,id',
             'mainvalue' => 'required|exists:accounts,id'
         ];
-        for ($i = 1; $i <= 6; $i++) {
-            $fields = '';
-            for ($j = 1; $j <= 6; $j++) {
-                if ($i != $j) {
-                    $fields .=  'subvalue' . $j . ',';
-                }
-            }
-            $fields = rtrim($fields, ',');
-            $rules['subvalue' . $i] = 'required_without_all:' . $fields . '|required_with:' . 'value' . $i;
-            $rules['value' . $i] = 'required_with:' . 'subvalue' . $i;
-        }
+        // for ($i = 1; $i <= 6; $i++) {
+        //     $fields = '';
+        //     for ($j = 1; $j <= 6; $j++) {
+        //         if ($i != $j) {
+        //             $fields .=  'subvalue' . $j . ',';
+        //         }
+        //     }
+        //     $fields = rtrim($fields, ',');
+        //     $rules['subvalue' . $i] = 'required_without_all:' . $fields . '|required_with:' . 'value' . $i;
+        //     $rules['value' . $i] = 'required_with:' . 'subvalue' . $i;
+        // }
         $rules['description']='required|max:255';
         return $rules;
     }

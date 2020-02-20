@@ -140,6 +140,9 @@
                                     class="fa fa-file-text-o"></i>Receipt Voucher </a></li>
                         <li {{ activeIfRoute('invoices.create') }}><a href="{{ route('invoices.create') }}"> <i
                                     class="icon-padnote"></i>Invoice </a></li>
+                        <li {{ activeIfRoute('SupplierI') }}><a href="{{ route('SupplierI') }}"> <i
+                                    class="icon-padnote"></i>Supplier Invoice </a></li>
+                                    
                         <li {{ activeIfRoute('adjustments.create') }}><a href="{{ route('adjustments.create') }}"> <i
                                     class="icon-padnote"></i>Adjustment
                             </a></li>

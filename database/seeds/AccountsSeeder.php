@@ -18,28 +18,28 @@ class AccountsSeeder extends Seeder
             array (
                 'id' => 1,
                 'name' => 'A/c Receivable ',
-                'amount' => 7844266.390000004,
+                'amount' => 0,
                 'chartid' => '1',
             ),
             1 =>
             array (
                 'id' => 2,
                 'name' => 'Income',
-                'amount' => 8096266.390000001,
+                'amount' => 0,
                 'chartid' => '5',
             ),
             2 =>
             array (
                 'id' => 3,
                 'name' => 'Security Deposit',
-                'amount' => -100.0,
+                'amount' => 0,
                 'chartid' => '2',
             ),
             3 =>
             array (
                 'id' => 6,
                 'name' => 'Petty Cash',
-                'amount' => 251900.0,
+                'amount' => 0,
                 'chartid' => '1',
             ),
             4 =>
@@ -55,6 +55,27 @@ class AccountsSeeder extends Seeder
                 'name' => 'capital',
                 'amount' => 0.0,
                 'chartid' => '3',
+            ),
+            6 =>
+            array (
+                'id' => 9,
+                'name' => 'Cash and Bank',
+                'amount' => 0.0,
+                'chartid' => '1',
+            ),
+            7 =>
+            array (
+                'id' => 10,
+                'name' => 'Supplier',
+                'amount' => 0.0,
+                'chartid' => '2',
+            ),
+            8 =>
+            array (
+                'id' => 11,
+                'name' => 'Purchases',
+                'amount' => 0.0,
+                'chartid' => '4',
             ),
         ));
 
