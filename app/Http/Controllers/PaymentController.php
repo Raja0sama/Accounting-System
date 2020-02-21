@@ -70,7 +70,7 @@ class PaymentController extends Controller
         
             
 
-                $by->transact($sum);
+                $by->transact(-$sum);
            
             
             $payment = Payment::create($data);
@@ -82,7 +82,7 @@ class PaymentController extends Controller
                 $amount = $request["value$i"];
                 $subaccount = Subaccount::find($subaccount_id);
                 if ($subaccount) {
-                         $subaccount->transact(-$amount);
+                         $subaccount->transact($amount);
 
                     // if($chart->id == 1 || $chart->id == 4){
                         //     $subaccount->transact($amount);

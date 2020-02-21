@@ -35,7 +35,7 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        // dd(\App\Account::where('name','=','Income')->take(1)->first()->subaccounts()->get());
+        $a = "ac";
         return view('invoice.create');
     }
     /**
@@ -45,8 +45,8 @@ class InvoiceController extends Controller
      */
     public function supplier_create()
     {
-        // dd(\App\Account::where('name','=','Income')->take(1)->first()->subaccounts()->get());
-        return view('invoice.create');
+        $a = "sup";
+        return view('invoice.screate');
     }
 
     /**
@@ -58,13 +58,12 @@ class InvoiceController extends Controller
     public function store(InvoiceRequest $request)
     {
         $message = '';
-
         DB::transaction(function () use ($request, &$message) {
             $bill=Account::find($request->bill);
             $customer=Subaccount::find($request->Customer);
             $data = [
                 'Date' => $request->datevalue,
-                'Bill' => $bill->name,
+                'Bill' => $bill->id,
                 'Customer'  => $customer->subid,
                 'description'  => $request->description,
             ];
@@ -79,8 +78,13 @@ class InvoiceController extends Controller
                     $sum += $amount;
                 }
             }
+            if($request->cust == "true"){
 
-            $customer->transact($sum);  // This is opposite to PaymentController since this is a receipt
+                $customer->transact(-$sum);  // This is opposite to PaymentController since this is a receipt
+            }else{
+                $customer->transact($sum);  // This is opposite to PaymentController since this is a receipt
+
+            }
             // $bill->transact($sum);  // This is opposite to PaymentController since this is a receipt
             $data['Total'] = $sum;
 
@@ -94,7 +98,13 @@ class InvoiceController extends Controller
                 $amount = $request["value$i"];
                 $subaccount = Subaccount::find($subaccount_id);
                 if ($subaccount) {
-                    $subaccount->transact(-$amount);  // This is opposite to PaymentController since this is a receipt
+                    if($request->cust == "true"){
+
+                        $subaccount->transact($amount);  // This is opposite to PaymentController since this is a receipt
+                    }else{
+                        $subaccount->transact(-$amount);  // This is opposite to PaymentController since this is a receipt
+        
+                    }
 
                     $id = $subaccount->subid;
                     $ammount = $amount;
@@ -181,7 +191,7 @@ class InvoiceController extends Controller
         DB::transaction(function () use ($request, $invoice, &$message) {
             // dd($request);
             // First Rollback current invoice transactions
-            $invoice->rollback();
+            // $invoice->rollback();
             // dd( $request);
             // Now update invoice
             $bill=Account::find($request->bill);
@@ -189,7 +199,7 @@ class InvoiceController extends Controller
 
             $data = [
                 'Date' => $request->datevalue,
-                'Bill' => $bill->name,
+                'Bill' => $bill->id,
                 'Customer'  => $customer->subid,
                 'description'  => $request->description,
             ];
@@ -245,21 +255,42 @@ class InvoiceController extends Controller
      * @param  \App\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Invoice $invoice)
+    public function destroy(Request $request,Invoice $invoice)
     {
         $message = '';
         
-        DB::transaction(function () use ($invoice, &$message) {
+        DB::transaction(function () use ($request,$invoice, &$message) {
             // Reverse amounts
             $invoice->rollback();
             $id=$invoice->id;
-            $sub = Sa::where([['parentid','=',$id],['from','=',3]])->sum('amount');
-            $subs = Sa::where([['parentid','=',$id],['from','=',3]])->delete();
-            $customer=Subaccount::find($invoice->Customer);
-            $customer->transact(-$sub);
-            $subb=Subaccount::find(2);
-            $subb->transact($sub);  // This is opposite to PaymentController since this is a receipt
+            //first find take a sum of the all the SA realted to current invoice
+            $sub = $invoice->Total;
 
+            
+            $customer=Subaccount::find($invoice->Customer);
+            if($request->cust == "true"){
+                $customer->transact($sub);
+            }else{
+                $customer->transact(-$sub);
+
+            }
+
+            //delete all the Sa related to current invoice 
+            foreach(Sa::where([['parentid','=',$id],['from','=',3]])->get() as $item){
+                $sub = Subaccount::find($item->nameId);
+                if($request->cust == "true"){
+                    $sub->transact(-(int)$item->amount);
+                }else{
+
+                    $sub->transact((int)$item->amount);
+                }
+               $sub->delete();
+          
+            }
+
+
+
+           
 
             $invoice->delete();
             $message="Invoice with id $id was deleted";

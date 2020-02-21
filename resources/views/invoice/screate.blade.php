@@ -10,7 +10,7 @@
     <div class="block">
         <div class="title"><strong>Invoice</strong></div>
         <div class="block-body">
-            <form name="form" id="invoice" action="{{ route("invoices.stores")}}" method="post" class="form-horizontal">
+            <form name="form" id="invoice" action="{{ route("invoices.store")}}" method="post" class="form-horizontal">
                 @csrf
                 <div id="HTMLtoPDF">
                     <div class="form-group row" id='NoAndDate'>
@@ -28,6 +28,7 @@
                                         class="form-control">Date</label>
                                     <input type="date" id="datevalue" name="datevalue" class="form-control"
                                         value="{{ old('datevalue') ?? "2018-00-00 " }}" />
+                                        <input name="cust" style="display:none" value="true" type="text"/>
                                 </div>
                             </div>
                         </div>

@@ -43,13 +43,17 @@
                                             <form id='invoice_delete_{{$inv->id}}' method='POST' action="{{ route('invoices.destroy', $inv->id)}}" >
                                                 @method('DELETE')
                                                 @csrf
+                                                
+                                            @if ($inv->Bill == 10)
+                                             <input name="cust" style="display:none" value="true" type="text"/>
+                                             @endif
                                             </form>
                                         </div>
                                     </td>
                                     <td class="table-active">{{ $inv->id  }}</td>
                                     <td class="table-secondary">{{ $inv->Date   }}</td>
-                                    <td>{{ $inv->Bill   }}</td>
-                                    <td>{{ $inv->Customern   }}</td>
+                                    <td>{{ \App\Account::find($inv->Bill)->name   }}</td>
+                                    <td>{{ \App\Subaccount::find($inv->Customer)->accountname  }}</td>
                            
                                     <td class="table-active" style='text-align:right'>{{ $inv->Total   }}</td>
                                 </tr>

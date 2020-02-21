@@ -41,6 +41,12 @@ class SubaccountsSeeder extends Seeder
                 'accountname' => 'Web Dev',
                 'amount' => 0.0,
             ),
+            5 =>
+            array (
+                'accountid' => '11',
+                'accountname' => 'Hosting',
+                'amount' => 0.0,
+            ),
         ));
 
 
